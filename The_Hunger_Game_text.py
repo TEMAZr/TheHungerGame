@@ -5,6 +5,8 @@ PROBLEM_AUTHORS = ['S. Mahankali', 'Z. Tu', 'A. Willis', 'D. Khani']
 PROBLEM_CREATION_DATE = "9-SEP-2022"
 PROBLEM_DESC = "It is bad for people to starve - Michael"
 
+# TODO: add angy/satisfaction meter >:(
+
 class State:
 
     def __init__(self, old = None):
@@ -13,7 +15,6 @@ class State:
         self.wd = 5 # waste during distribution/transit - same units
         self.bh = 80 # percent of food distributed that people buy from corporations
         self.ch = 70 # percent of food that people buy, that they eat
-        self.a = 0 # direct aid
         self.m = 100 # amount of money available - change later
         self.t = 0 # time passed
         if old is not None:
@@ -22,7 +23,6 @@ class State:
             self.wd = old.wp
             self.bh = old.bh
             self.ch = old.ch
-            self.a = old.a
             self.m = old.m
             self.t = old.t
         self.d = 0
@@ -50,21 +50,20 @@ class State:
         self.h = 100 - (self.p - self.w)
         return max(0, self.h)
 
-    def move(self, dp, dwp, dwd, dbh, dch, da, cost):
+    def move(self, dp, dwp, dwd, dbh, dch, cost):
         new = State(self)
         new.p += dp
         new.wp += dwp
         new.wd += dwd
         new.bh += dbh
         new.ch += dch
-        new.a += da
         new.m -= cost
         new.d = new.calc_total_distribution()
         new.w = new.calc_total_waste()
         new.h = new.calc_hunger()
         return new
 
-    def can_move(self, dp, dwp, dwd, dbh, dch, da, cost):
+    def can_move(self, dp, dwp, dwd, dbh, dch, cost):
         if self.wp + self.wd + dwp + dwd > self.p + dp: return False
         if self.bh + dbh > 100 or self.bh + dbh < 0: return False
         if self.ch + dch > 100 or self.ch + dch < 0: return False
@@ -74,7 +73,7 @@ class State:
     # \u001b[38;5;##m
     # \u001b[0m
     def __str__(self):
-        s = f'Money: {self.m:.2f}\n\u001b[38;5;196m=\u001b[38;5;203m=\u001b[38;5;208m=\u001b[38;5;214m=\u001b[38;5;220m=\u001b[38;5;222m=\u001b[38;5;226m=\u001b[38;5;154m=\u001b[38;5;157m=\u001b[38;5;118m=\u001b[38;5;123m=\u001b[38;5;81m=\u001b[38;5;31m=\u001b[38;5;27m=\u001b[38;5;57m=\u001b[38;5;93m=\u001b[38;5;128m=\u001b[0m\n===== Stats =====\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nDirect Aid: {self.a:.2f}\nHunger Rate: {self.h:.2f}'
+        s = f'Money: {self.m:.2f}\n\u001b[38;5;196m=\u001b[38;5;203m=\u001b[38;5;208m=\u001b[38;5;214m=\u001b[38;5;220m=\u001b[38;5;222m=\u001b[38;5;226m=\u001b[38;5;154m=\u001b[38;5;157m=\u001b[38;5;118m=\u001b[38;5;123m=\u001b[38;5;81m=\u001b[38;5;31m=\u001b[38;5;27m=\u001b[38;5;57m=\u001b[38;5;93m=\u001b[38;5;128m=\u001b[0m\n===== Stats =====\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nHunger Rate: {self.h:.2f}'
         return s
 
     def describe_state(self):
@@ -115,16 +114,16 @@ INITIAL_STATE = State()
 
 GOAL_MESSAGE_FUNCTION = lambda s: s.goal_message()
 
-# (self, dp, dwp, dwd, dbh, dch, da, cost)
+# (self, dp, dwp, dwd, dbh, dch, cost)
 
-phi0 = Operator("Force people to eat their food", lambda s: s.can_move(0, 0, 0, 0, 25, 0, 25),\
-    lambda s: s.move(0, 0, 0, 0, 25, 0, 25))
+phi0 = Operator("Force people to eat their food", lambda s: s.can_move(0, 0, 0, 0, 25, 25),\
+    lambda s: s.move(0, 0, 0, 0, 25, 25))
 
-phi1 = Operator("Constant bonfire of usable food", lambda s: s.can_move(0, 0, 0, 0, -20, 0, 50),\
-    lambda s: s.move(0, 0, 0, 0, -20, 0, 50))
+phi1 = Operator("Constant bonfire of usable food", lambda s: s.can_move(0, 0, 0, 0, -20, 50),\
+    lambda s: s.move(0, 0, 0, 0, -20, 50))
 
-phi2 = Operator("Better pesticides! :)", lambda s: s.can_move(10, 0, 0, 0, 0, 0, 10),\
-    lambda s: s.move(10, 0, 0, 0, 0, 0, 10))
+phi2 = Operator("Better pesticides! :)", lambda s: s.can_move(10, 0, 0, 0, 0, 10),\
+    lambda s: s.move(10, 0, 0, 0, 0, 10))
 
 OPERATORS = [phi0, phi1, phi2]
 
