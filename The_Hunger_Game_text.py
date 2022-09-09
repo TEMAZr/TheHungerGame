@@ -3,7 +3,7 @@ PROBLEM_NAME = "The Hunger Game"
 PROBLEM_VERSION = "the first one"
 PROBLEM_AUTHORS = ['S. Mahankali', 'Z. Tu', 'A. Willis', 'D. Khani']
 PROBLEM_CREATION_DATE = "9-SEP-2022"
-PROBLEM_DESC = "It is bad for people to starve - Michael"
+PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
 
 # TODO: add angy/satisfaction meter >:(
 
