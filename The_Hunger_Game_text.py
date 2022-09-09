@@ -71,8 +71,10 @@ class State:
         if cost > self.m: return False
         return True
 
+    # \u001b[38;5;##m
+    # \u001b[0m
     def __str__(self):
-        s = f'Production: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nDirect Aid: {self.a:.2f}\nHunger Rate: {self.h:.2f}\nMoney: {self.m:.2f}'
+        s = f'Money: {self.m:.2f}\n\u001b[38;5;196m=\u001b[38;5;203m=\u001b[38;5;208m=\u001b[38;5;214m=\u001b[38;5;220m=\u001b[38;5;222m=\u001b[38;5;226m=\u001b[38;5;154m=\u001b[38;5;157m=\u001b[38;5;118m=\u001b[38;5;123m=\u001b[38;5;81m=\u001b[38;5;31m=\u001b[38;5;27m=\u001b[38;5;57m=\u001b[38;5;93m=\u001b[38;5;128m=\u001b[0m\n===== Stats =====\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nDirect Aid: {self.a:.2f}\nHunger Rate: {self.h:.2f}'
         return s
 
     def describe_state(self):
