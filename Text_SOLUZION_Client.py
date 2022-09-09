@@ -145,7 +145,7 @@ import sys, importlib.util
 # Get the PROBLEM name from the command-line arguments
 
 if len(sys.argv)<2:
-  problem_name = "Hanoi" # Change this, e.g., for FarmerFox.
+  problem_name = "The_Hunger_Game_text" # Change this, e.g., for FarmerFox.
 #  
 #  print('''
 #       Usage: 

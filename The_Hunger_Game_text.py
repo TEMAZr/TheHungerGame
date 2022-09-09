@@ -1,3 +1,10 @@
+SOLUZION_VERSION = "0.2"
+PROBLEM_NAME = "The Hunger Game"
+PROBLEM_VERSION = "the first one"
+PROBLEM_AUTHORS = ['S. Mahankali', 'Z. Tu', 'A. Willis', 'D. Khani']
+PROBLEM_CREATION_DATE = "9-SEP-2022"
+PROBLEM_DESC = "It is bad for people to starve - Michael"
+
 class State:
 
     def __init__(self, old = None):
@@ -33,7 +40,7 @@ class State:
         return self.d - (self.d * self.bh/100)
 
     def calc_household_waste(self):
-        return self.calc_corporation_waste() - (self.calc_corporation_waste * self.ch/100)
+        return (self.d-self.calc_corporation_waste()) - (self.d-self.calc_corporation_waste()) * self.ch/100
     
     def calc_total_waste(self):
         self.w = self.wp + self.wd + self.calc_corporation_waste() + self.calc_household_waste()
@@ -41,7 +48,7 @@ class State:
 
     def calc_hunger(self):
         self.h = 100 - (self.p - self.w)
-        return self.h
+        return max(0, self.h)
 
     def move(self, dp, dwp, dwd, dbh, dch, da, cost):
         new = State(self)
@@ -52,16 +59,20 @@ class State:
         new.ch += dch
         new.a += da
         new.m -= cost
+        new.d = new.calc_total_distribution()
+        new.w = new.calc_total_waste()
+        new.h = new.calc_hunger()
         return new
 
     def can_move(self, dp, dwp, dwd, dbh, dch, da, cost):
         if self.wp + self.wd + dwp + dwd > self.p + dp: return False
-        if dbh > 100 or dbh < 0 or dch > 100 or dch < 0: return False
+        if self.bh + dbh > 100 or self.bh + dbh < 0: return False
+        if self.ch + dch > 100 or self.ch + dch < 0: return False
         if cost > self.m: return False
         return True
 
     def __str__(self):
-        s = f'Production: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nDirect Aid: {self.a:.2f}\nHunger Rate: {self.h:.2f}'
+        s = f'Production: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nDirect Aid: {self.a:.2f}\nHunger Rate: {self.h:.2f}\nMoney: {self.m:.2f}'
         return s
 
     def describe_state(self):
@@ -69,7 +80,7 @@ class State:
 
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
-        return self.h <= 20
+        return self.h <= 20 or self.m <= 0
 
     def __eq__(self, s2):
         if s2 is None: return False
@@ -87,7 +98,7 @@ def copy_state(s):
 
 class Operator:
 
-  def init(self, name, precond, state_transf):
+  def __init__(self, name, precond, state_transf):
     self.name = name
     self.precond = precond
     self.state_transf = state_transf
@@ -100,17 +111,20 @@ class Operator:
 
 INITIAL_STATE = State()
 
-GOAL_MESSAGE_FUNCTION = lambda s: goal_message(s)
+GOAL_MESSAGE_FUNCTION = lambda s: s.goal_message()
 
 # (self, dp, dwp, dwd, dbh, dch, da, cost)
 
-phi0 = Operator("eat some food", lambda s: s.can_move(0, 0, 0, 0, 5, 0, 1),\
-    lambda s: s.move(0, 0, 0, 0, 5, 0, 1))
+phi0 = Operator("Force people to eat their food", lambda s: s.can_move(0, 0, 0, 0, 25, 0, 25),\
+    lambda s: s.move(0, 0, 0, 0, 25, 0, 25))
 
-phi1 = Operator("BURN SOME FOOD", lambda s: s.can_move(0, 0, 0, 0, -5, 0, 0),\
-    lambda s: s.move(0, 0, 0, 0, -5, 0, 0))
+phi1 = Operator("Constant bonfire of usable food", lambda s: s.can_move(0, 0, 0, 0, -20, 0, 50),\
+    lambda s: s.move(0, 0, 0, 0, -20, 0, 50))
 
 phi2 = Operator("Better pesticides! :)", lambda s: s.can_move(10, 0, 0, 0, 0, 0, 10),\
     lambda s: s.move(10, 0, 0, 0, 0, 0, 10))
 
 OPERATORS = [phi0, phi1, phi2]
+
+s = State()
+print(s)
