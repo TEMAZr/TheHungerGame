@@ -15,7 +15,7 @@ class State:
         self.wd = 5 # waste during distribution/transit - same units
         self.bh = 80 # percent of food distributed that people buy from corporations
         self.ch = 70 # percent of food that people buy, that they eat
-        self.m = 100 # amount of money available - change later
+        self.m = 500 # amount of money available - change later
         self.t = 0 # time passed
         if old is not None:
             self.p = old.p
@@ -73,16 +73,18 @@ class State:
     # \u001b[38;5;##m
     # \u001b[0m
     def __str__(self):
-        s = f'Money: {self.m:.2f}\n\u001b[38;5;196m=\u001b[38;5;203m=\u001b[38;5;208m=\u001b[38;5;214m=\u001b[38;5;220m=\u001b[38;5;222m=\u001b[38;5;226m=\u001b[38;5;154m=\u001b[38;5;157m=\u001b[38;5;118m=\u001b[38;5;123m=\u001b[38;5;81m=\u001b[38;5;31m=\u001b[38;5;27m=\u001b[38;5;57m=\u001b[38;5;93m=\u001b[38;5;128m=\u001b[0m\n\
+        return f'\n\u001b[38;5;196m=\u001b[38;5;203m=\u001b[38;5;208m=\u001b[38;5;214m=\u001b[38;5;220m=\u001b[38;5;222m=\u001b[38;5;226m=\u001b[38;5;154m=\u001b[38;5;157m=\u001b[38;5;118m=\u001b[38;5;123m=\u001b[38;5;81m=\u001b[38;5;31m=\u001b[38;5;27m=\u001b[38;5;57m=\u001b[38;5;93m=\u001b[38;5;128m=\u001b[0m\nMoney: {self.m:.2f}\n\
 \u001b[30m\u001b[48;5;196=\u001b[48;5;203m==\u001b[48;5;208==\u001b[48;5;214m==\u001b[48;5;220m=\u001b[48;5;222m \u001b[48;5;226mS\u001b[48;5;154mt\u001b[48;5;157ma\u001b[48;5;118mt\u001b[48;5;123ms\u001b[48;5;81m \u001b[48;5;31m=\u001b[48;5;27m=\u001b[48;5;57m=\u001b[48;5;93m=\u001b[48;5;128m=\u001b[0m\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nHunger Rate: {self.h:.2f}'
-        return s
 
     def describe_state(self):
         return str(self)
 
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
-        return self.h <= 20 or self.m <= 0
+        if self.h <= 20 or self.m <= 0 or self.h >= 90:
+            print(self.goal_message())
+            return True
+        return False
 
     def __eq__(self, s2):
         if s2 is None: return False
@@ -93,6 +95,7 @@ class State:
 
     def goal_message(self):
         if self.m <= 0: return "lol u broke, it's a skill issue"
+        if self.h >= 90: return "the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry)"
         return "Dennyville is ever grateful for your contributions! bye lul"
 
 def copy_state(s):
@@ -117,38 +120,41 @@ GOAL_MESSAGE_FUNCTION = lambda s: s.goal_message()
 
 # (self, dp, dwp, dwd, dbh, dch, cost)
 
-phi0 = Operator("Campaign against household food waste", lambda s: s.can_move(0, 0, 0, -1, 1, 25),\
-    lambda s: s.move(0, 0, 0, -1, 1, 25))
+phi0 = Operator("Campaign against household food waste", lambda s: s.can_move(0, 0, 0, -1, 5, 50),\
+    lambda s: s.move(0, 0, 0, -1, 5, 50))
 
-phi1 = Operator("Constant bonfire of usable food", lambda s: s.can_move(0, 0, 0, 0, -1, 50),\
-    lambda s: s.move(0, 0, 0, 0, -1, 50))
+phi1 = Operator("Constant bonfire of usable food", lambda s: s.can_move(0, 0, 0, 0, -20, 100),\
+    lambda s: s.move(0, 0, 0, 0, -20, 100))
 
-phi2 = Operator("Develop better pesticides", lambda s: s.can_move(1, 0, 0, 0, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi2 = Operator("Develop better pesticides", lambda s: s.can_move(10, 0, 0, 0, 0, 20),\
+    lambda s: s.move(10, 0, 0, 0, 0, 20))
 
-phi3 = Operator("Improve road infrastrucure", lambda s: s.can_move(0, -1, 0, 0, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi3 = Operator("Improve road infrastructre", lambda s: s.can_move(0, -5, 0, 0, 0, 40),\
+    lambda s: s.move(0, -5, 0, 0, 0, 40))
 
-phi4 = Operator("Innovate new farming technology", lambda s: s.can_move(1, -1, 0, 0, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi4 = Operator("Innovate new farming technology", lambda s: s.can_move(25, -10, 0, 0, 0, 25),\
+    lambda s: s.move(25, -10, 0, 0, 0, 25))
 
-phi5 = Operator("Give silos to farms in need", lambda s: s.can_move(0, -1, 0, 0, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi5 = Operator("Give silos to farms in need", lambda s: s.can_move(0, -15, 0, 0, 0, 10),\
+    lambda s: s.move(0, -15, 0, 0, 0, 10))
 
-phi6 = Operator("Farmers get tax cuts!", lambda s: s.can_move(1, -1, 0, 1, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi6 = Operator("Farmers get tax cuts!", lambda s: s.can_move(15, -5, 0, 5, 0, 30),\
+    lambda s: s.move(15, -5, 0, 5, 0, 30))
 
-phi7 = Operator("Improve truck insulation", lambda s: s.can_move(0, -1, 0, 0, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi7 = Operator("Improve truck insulation", lambda s: s.can_move(0, -15, 0, 0, 0, 15),\
+    lambda s: s.move(0, -15, 0, 0, 0, 15))
 
-phi8 = Operator("Invent the rocket truck!", lambda s: s.can_move(0, 0, 1, 0, 0, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi8 = Operator("Invent the rocket truck!", lambda s: s.can_move(0, 0, 50, 0, 0, 100),\
+    lambda s: s.move(0, 0, 50, 0, 0, 100))
 
-phi9 = Operator("Give people stimulus checks", lambda s: s.can_move(0, 0, 0, 1, 1, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi9 = Operator("Give people stimulus checks", lambda s: s.can_move(0, 0, 0, 20, 20, 75),\
+    lambda s: s.move(0, 0, 0, 20, 20, 75))
 
-phi10 = Operator("Raise sales taxes", lambda s: s.can_move(0, 1, 0, -1, -1, 10),\
-    lambda s: s.move(1, 0, 0, 0, 0, 10))
+phi10 = Operator("Raise sales taxes", lambda s: s.can_move(0, 20, 0, -15, -15, -50),\
+    lambda s: s.move(0, 20, 0, -15, -15, -50))
+
+# TODO: add money operator
+# TODO: add other negative operators
 
 OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7, phi8, phi9, phi10]
 
