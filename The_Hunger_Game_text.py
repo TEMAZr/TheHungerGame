@@ -157,6 +157,3 @@ phi10 = Operator("Raise sales taxes", lambda s: s.can_move(0, 20, 0, -15, -15, -
 # TODO: add other negative operators
 
 OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7, phi8, phi9, phi10]
-
-s = State()
-print(s)
