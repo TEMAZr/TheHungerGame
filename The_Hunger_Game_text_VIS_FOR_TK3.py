@@ -6,6 +6,7 @@ It uses three jpg images for showing missionaries, cannibals, and the boat.
 
 '''
 from tkinter import font
+# from The_Hunger_Game_text import *
 
 myFont=None
 
@@ -15,9 +16,12 @@ TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
 STATE_ARRAY = None
+ROOT = None
+THE_CANVAS = None
 
 def initialize_vis(st_win, state_arr, initial_state):
-  global STATE_WINDOW, STATE_ARRAY
+  global STATE_WINDOW, STATE_ARRAY, ROOT, THE_CANVAS
+  # State.holdwindow = ROOT
   STATE_WINDOW = st_win
   STATE_ARRAY = state_arr
   STATE_WINDOW.winfo_toplevel().title(TITLE)

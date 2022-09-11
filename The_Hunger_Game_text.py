@@ -7,7 +7,12 @@ PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
 
 # TODO: add angy/satisfaction meter >:(
 
+# from Tk_SOLUZION_Client3 import *
+# import tkinter as tk
+
 class State:
+
+    # holdwindow = None
 
     def __init__(self, old = None):
         self.p = 90 # production in a percentage of pop. that could be fed given no waste
@@ -51,6 +56,7 @@ class State:
         return max(0, self.h)
 
     def move(self, dp, dwp, dwd, dbh, dch, cost):
+        # global ROOT
         new = State(self)
         new.p += dp
         new.wp += dwp
@@ -61,6 +67,12 @@ class State:
         new.d = new.calc_total_distribution()
         new.w = new.calc_total_waste()
         new.h = new.calc_hunger()
+        # if self.is_goal():
+        #     try:
+        #         holdwindow.destroy()
+        #         quit()
+        #     except:
+        #         print(type(holdwindow))
         return new
 
     def can_move(self, dp, dwp, dwd, dbh, dch, cost):
@@ -97,6 +109,14 @@ class State:
         if self.m <= 0: return "lol u broke, it's a skill issue"
         if self.h >= 90: return "the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry)"
         return "Dennyville is ever grateful for your contributions! bye lul"
+    
+    # def give_window(self, window):
+    #     global holdwindow
+    #     holdwindow = window
+
+    # def close_window(self):
+    #     global holdwindow
+    #     holdwindow.destroy()
 
 def copy_state(s):
     return State(old=s)
