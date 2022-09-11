@@ -55,7 +55,7 @@ def render_state(s):
     the_color_array [2][0] = blue
     the_color_array [3][0] = blue
     the_string_array[2][0] = "Hunger:"
-    the_string_array[3][0] = str(s.h) + "%"
+    the_string_array[3][0] = f"{s.h:.2f}%"
 
     # Adjust colors and strings to match the state.
     the_color_array [0][0] = "calendar.jpg"
