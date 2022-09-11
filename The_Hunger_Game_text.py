@@ -20,7 +20,7 @@ class State:
         if old is not None:
             self.p = old.p
             self.wp = old.wp
-            self.wd = old.wp
+            self.wd = old.wd
             self.bh = old.bh
             self.ch = old.ch
             self.m = old.m
