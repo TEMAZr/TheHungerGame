@@ -11,7 +11,7 @@ from tkinter import font
 myFont=None
 
 WIDTH = 700
-HEIGHT = 500
+HEIGHT = 490
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
@@ -44,20 +44,15 @@ def render_state(s):
     orange = (248, 102, 36)
     yellow = (234, 196, 53)
     
-    row = [green]* 7
+    row = [blue]* 7
     the_color_array = [row, row[:], row[:], row[:], row[:], row[:], row[:]]
     
     # Now create the default array of string labels.
     row = ['' for i in range(7)]
     the_string_array = [row, row[:], row[:], row[:], row[:], row[:], row[:]]
 
-    #top task bar
-    for i in range(7): 
-      the_color_array [0][i] = blue
 
     #side hunger bar
-    the_color_array [2][0] = blue
-    the_color_array [3][0] = blue
     the_string_array[2][0] = "Hunger:"
     the_string_array[3][0] = f"{s.h:.2f}%"
 
@@ -68,21 +63,24 @@ def render_state(s):
     the_color_array [0][1] = "money.jpg"
     the_string_array[0][1] = "$" + str(s.m)
 
-    the_color_array [2][2] = red
-    the_color_array [2][3] = red
-    the_color_array [3][3] = red
-    the_color_array [3][2] = "building.jpg"
-    the_string_array[2][3] = "Urban"
+    for i in range(36):
+      the_color_array[int(i/6)+1][i%6+1] = f"mapimages\mapslice_{i+1:02}.png"
 
-    the_color_array [5][3] = orange
-    the_color_array [5][5] = orange
-    the_color_array [5][4] = "house.jpg"
-    the_string_array[5][3] = "Sub-"
-    the_string_array[5][5] = "urban"
+    # the_color_array [2][2] = red
+    # the_color_array [2][3] = red
+    # the_color_array [3][3] = red
+    # the_color_array [3][2] = "mapimages\mapslice_01.png"
+    # the_string_array[2][3] = "Urban"
 
-    the_color_array [2][5] = yellow
-    the_color_array [3][5] = "farm.jpg"
-    the_string_array[2][5] = "Rural"
+    # the_color_array [5][3] = orange
+    # the_color_array [5][5] = orange
+    # the_color_array [5][4] = "house.jpg"
+    # the_string_array[5][3] = "Sub-"
+    # the_string_array[5][5] = "urban"
+
+    # the_color_array [2][5] = yellow
+    # the_color_array [3][5] = "farm.jpg"
+    # the_string_array[2][5] = "Rural"
 
     caption="Current state of the puzzle. Textual version: "+str(s)
     print(caption)

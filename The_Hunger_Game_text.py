@@ -64,8 +64,8 @@ class State:
         new.bh += dbh
         new.ch += dch
         new.m -= cost
-        new.d = new.calc_total_distribution()
-        new.w = new.calc_total_waste()
+        new.d = min(new.p,new.calc_total_distribution())
+        new.w = max(0,new.calc_total_waste())
         new.h = new.calc_hunger()
         # if self.is_goal():
         #     try:
