@@ -85,8 +85,8 @@ class State:
     # \u001b[38;5;##m
     # \u001b[0m
     def __str__(self):
-        return f'\n\u001b[38;5;196m=\u001b[38;5;203m=\u001b[38;5;208m=\u001b[38;5;214m=\u001b[38;5;220m=\u001b[38;5;222m=\u001b[38;5;226m=\u001b[38;5;154m=\u001b[38;5;157m=\u001b[38;5;118m=\u001b[38;5;123m=\u001b[38;5;81m=\u001b[38;5;31m=\u001b[38;5;27m=\u001b[38;5;57m=\u001b[38;5;93m=\u001b[38;5;128m=\u001b[0m\nMoney: {self.m:.2f}\n\
-\u001b[30m\u001b[48;5;196=\u001b[48;5;203m==\u001b[48;5;208==\u001b[48;5;214m==\u001b[48;5;220m=\u001b[48;5;222m \u001b[48;5;226mS\u001b[48;5;154mt\u001b[48;5;157ma\u001b[48;5;118mt\u001b[48;5;123ms\u001b[48;5;81m \u001b[48;5;31m=\u001b[48;5;27m=\u001b[48;5;57m=\u001b[48;5;93m=\u001b[48;5;128m=\u001b[0m\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nHunger Rate: {self.h:.2f}'
+        return f'\n=================\nMoney: {self.m:.2f}\n\
+===== Stats =====\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nHunger Rate: {self.h:.2f}'
 
     def describe_state(self):
         return str(self)
