@@ -8,6 +8,60 @@ PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
 import Tk_SOLUZION_Client3 as tks3
 import tkinter as tk
 import sys
+import random
+
+class CrisisEvent:
+
+    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch):
+        self.name = name
+        self.msg = msg
+        self.dp = dp
+        self.dwp = dwp
+        self.dwd = dwd
+        self.dbh = dbh
+        self.dch = dch
+        self.active = False
+        self.turns_active = 0
+
+    def activate(self):
+        self.active = True
+
+    def resolve(self):
+        self.active = False
+
+    def add_turn_active(self):
+        self.turns_active += 1
+
+    def __str__(self):
+        return str(self.name)
+
+# Crises - note: numerical parameters are multipliers
+
+name = "Dry Dry Dennyville"
+msg = "Dennyville is experiencing a severe drought, which has become all too common in recent years. Farms are struggling to upkeep their crops, which is making food harder to come by. A lot of people are praying to you right now. Do the right thing!"
+crisis0 = CrisisEvent(name, msg, 0.7, 1, 1, 1.20, 1)
+
+name = "Billionaire Blowout!"
+msg = "Dennyville aristocrats are mad they have to pay more in taxes. One billionaire and CEO of [TBD] has threatened to withdraw their company from Dennyville if the taxes aren’t lowered soon."
+crisis1 = CrisisEvent(name, msg, 1, 1, 1, 1, 1) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
+
+name = "Enterprise Exodus"
+msg = "After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result."
+crisis2 = CrisisEvent(name, msg, 1, 1, 1, 0.9, 1)
+
+name = "Homicidal Hornets"
+msg = "You thought the 2020 plot-writers forgot about murder hornets, didn’t you? Welcome to Season 2! Murder hornets have invaded Dennyville and are steadily taking out the native honeybee population, reducing fertilization of crops."
+crisis3 = CrisisEvent(name, msg, 0.8, 1, 1, 1, 1)
+
+name = "Sinkhole!"
+msg = "A sinkhole cropped up straight in the middle of Interstate 420, making the route unnavigable and cargo delivery to Dennyville more difficult. This greatly affects the distribution of perishable goods like food."
+crisis4 = CrisisEvent(name, msg, 1, 1.2, 1, 1, 1)
+
+name = "War Lite"
+msg = "The citizens of Dennyville are outraged that so many of them are hungry and nobody is doing anything about it. They’ve taken to the streets of the city center and, in addition to refusing to purchase food, are literally burning everything down. Many farmers are also on strike and refusing to produce food. Something tells me you should intervene..."
+crisis5 = CrisisEvent(name, msg, 0.8, 1, 1, 0.7, 1)
+
+CRISES = [crisis0, crisis1, crisis2, crisis3, crisis4, crisis5]
 
 class State:
 
@@ -37,6 +91,13 @@ class State:
         self.calc_total_waste()
         self.h = 0
         self.calc_hunger()
+
+        global CRISES
+        if random.randint(0, 10) == 0:
+            c = random.choice(CRISES)
+            c.activate()
+            print(str(c.msg))
+        self.apply_crises()
     
     def calc_total_distribution(self):
         self.d = self.p - self.wp - self.wd # food that gets off farms and to corps/retailers
@@ -55,6 +116,18 @@ class State:
     def calc_hunger(self):
         self.h = 100 - (self.p - self.w)
         return max(0.01, self.h)
+
+    def apply_crises(self):
+        global CRISES
+        for c in CRISES:
+            if c.active:
+                c.add_turn_active()
+            if c.turns_active == 1:
+                self.p *= c.dp
+                self.wp *= c.dwp
+                self.wd *= c.dwd
+                self.bh *= c.dbh
+                self.ch *= c.dch
 
     def move(self, t):
         # global ROOT
@@ -161,31 +234,6 @@ class Task:
 
     def __str__(self):
         return str(self.name)
-
-class CrisisEvent:
-
-    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch):
-        self.name = name
-        self.msg = msg
-        self.dp = dp
-        self.dwp = dwp
-        self.dwd = dwd
-        self.dbh = dbh
-        self.dch = dch
-        self.active = False
-        self.turns_active = 0
-
-    def activate(self):
-        self.active = True
-
-    def resolve(self):
-        self.active = False
-
-    def add_turn_active(self):
-        self.turns_active += 1
-
-    def __str__(self):
-        return str(self.name)
     
 class Operator:
 
@@ -247,17 +295,3 @@ phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6)
 
 TASKS = [task0, task1, task2, task3, task4, task5, task6]
 OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6]
-
-# Crises
-
-name = "Dry Dry Dennyville"
-msg = "Dennyville is experiencing a severe drought, which has become all too common in recent years. Farms are struggling to upkeep their crops, which is making food harder to come by. A lot of people are praying to you right now. Do the right thing!"
-crisis0 = CrisisEvent(name, msg, 70, 0, 0, 120, 0)
-
-name = "Billionaire Blowout!"
-msg = "Dennyville aristocrats are mad they have to pay more in taxes. One billionaire and CEO of [TBD] has threatened to withdraw their company from Dennyville if the taxes aren’t lowered soon."
-crisis1 = CrisisEvent(name, msg, 0, 0, 0, 0, 0) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
-
-name = "Enterprise Exodus"
-msg = "After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result."
-crisis2 = CrisisEvent(name, msg, 0, 0, 0, 90, 0)
