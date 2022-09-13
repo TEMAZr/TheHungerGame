@@ -1,6 +1,6 @@
 SOLUZION_VERSION = "0.2"
 PROBLEM_NAME = "The Hunger Game"
-PROBLEM_VERSION = "the first one"
+PROBLEM_VERSION = "alpha beta sigma male 2"
 PROBLEM_AUTHORS = ['S. Mahankali', 'Z. Tu', 'A. Willis', 'D. Khani']
 PROBLEM_CREATION_DATE = "9-SEP-2022"
 PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
@@ -101,6 +101,7 @@ class State:
 
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
+        # figure out how to end game if there are no available tasks
         if self.h <= 20 or self.m <= 0 or self.h >= 90:
             print(self.goal_message())
             return True
@@ -216,4 +217,5 @@ phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6)
 # TODO: add money operator
 # TODO: add other negative operators
 
+TASKS = [task0, task1, task2, task3, task4, task5, task6]
 OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6]
