@@ -21,7 +21,7 @@ class State:
         self.bh = 80 # percent of food distributed that people buy from corporations
         self.ch = 70 # percent of food that people buy, that they eat
         self.m = 1000 # amount of money available - change later
-        self.t = 0 # time passed
+        self.time = 0 # time passed
         self.rocket_truck = False
         if old is not None:
             self.p = old.p
@@ -30,7 +30,7 @@ class State:
             self.bh = old.bh
             self.ch = old.ch
             self.m = old.m
-            self.t = old.t
+            self.time = old.time
             self.rocket_truck = old.rocket_truck
         self.d = 0
         self.calc_total_distribution()
@@ -66,6 +66,7 @@ class State:
         new.bh += t.dbh
         new.ch += t.dch
         new.m -= t.cost
+        new.time += t.time
         new.d = new.calc_total_distribution()
         new.w = new.calc_total_waste()
         new.h = new.calc_hunger()
@@ -132,7 +133,7 @@ def copy_state(s):
 
 class Task:
 
-    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch, cost, max_times):
+    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch, cost, max_times, time):
         self.name = name
         self.msg = msg
         self.dp = dp
@@ -141,6 +142,7 @@ class Task:
         self.dbh = dbh
         self.dch = dch
         self.cost = cost
+        self.time = time
         self.max_times = max_times
         self.times_used = 0
 
@@ -181,37 +183,37 @@ GOAL_MESSAGE_FUNCTION = lambda s: s.goal_message()
 
 name = "$165: Give silos to farms in need."
 msg = "Some small-scale farms do not have access to modern storage equipment, or it is simply too expensive in the short-term. Changes so simple as supplying them with silos can cut their post-harvest losses from 40% to 2%! Thanks to your contribution, less food in Dennyville will go to waste."
-task0 = Task(name, msg, 0, -3, 0, 0, 0, 165, 3)
+task0 = Task(name, msg, 0, -3, 0, 0, 0, 165, 3, 1)
 phi0 = Operator(task0.name, lambda s: s.can_move(task0), lambda s: s.move(task0))
 
 name = "$1500: Reconstruct roads near the city"
 msg = "Trucking is vital to farms’ success. In the United States, 70% of agricultural and food products travel by truck to their destinations. However, many roads aren’t in the best shape, which hinders transportation, especially of perishable goods. Because you fixed up major roadways in the Dennyville area, less food will be wasted in transit!"
-task1 = Task(name, msg, 0, 0, -7, 0, 0, 1500, 1)
+task1 = Task(name, msg, 0, 0, -7, 0, 0, 1500, 1, 10)
 phi1 = Operator(task1.name, lambda s: s.can_move(task1), lambda s: s.move(task1))
 
 name = "$50: Ad campaign against household food waste."
 msg = "You’ve pestered all of Dennyville with your relentless ads… but maybe that’s a good thing. A lot of people don’t know that households generate 31% of all food waste in industrialized countries. By encouraging Dennyville residents to build habits such as planning meals, eating leftovers, using the freezer to prolong shelf life, and donating excess food, the area has seen a decrease in food waste."
-task2 = Task(name, msg, 0, 0, 0, -5, 15, 50, 1)
+task2 = Task(name, msg, 0, 0, 0, -5, 15, 50, 1, 1)
 phi2 = Operator(task2.name, lambda s: s.can_move(task2), lambda s: s.move(task2))
 
 name = "$1000: Provide Dennyville residents with stimulus checks."
 msg = "Its effect on better-off individuals is limited, but the stimulus check prompted a significant increase in spending among lower-income residents, who are now able to put more money toward food. Dennyville thanks you for the boost, although some residents still have an issue with “free money.”"
-task3 = Task(name, msg, 0, 0, 0, 7, 0, 1000, 1)
+task3 = Task(name, msg, 0, 0, 0, 7, 0, 1000, 1, 0)
 phi3 = Operator(task3.name, lambda s: s.can_move(task3), lambda s: s.move(task3))
 
 name = "$100: Provide low-income students with free school lunch."
 msg = "School lunch has a surprisingly large impact on hunger, with a 14% reduction in food insufficiency in United States households with one or more children receiving free or reduced-price school lunch. Dennyville’s families are very happy with your choice."
-task4 = Task(name, msg, 0, 0, 0, 7, 0, 100, 1)
+task4 = Task(name, msg, 0, 0, 0, 7, 0, 100, 1, 2)
 phi4 = Operator(task4.name, lambda s: s.can_move(task4), lambda s: s.move(task4))
 
 name = "$500: Convince Elon Musk to invent the rocket truck!"
 msg = "Rocket trucks are so very fast, but they also liquidate their cargo and sometimes other vehicles. Ironically, with this advance in technology, you’ve caused the trucking industry a great setback and created a whole bunch of food waste. You’re lucky everyone is mad at Elon Musk and not the god that sent him down this wretched path."
-task5 = Task(name, msg, 0, 0, 50, 0, 0, 500, 1)
+task5 = Task(name, msg, 0, 0, 50, 0, 0, 500, 1, 5)
 phi5 = Operator(task5.name, lambda s: s.can_move(task5), lambda s: s.move(task5))
 
 name = "$250: Ban the rocket truck..."
 msg = "As cool as rocket trucks are, you made the right choice. Maybe now Dennyville can begin to heal. (Though some people still use rocket trucks because they don’t care about the law and they’re too fast to get pulled over.)"
-task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1)
+task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
 # TODO: add money operator

@@ -59,7 +59,7 @@ def render_state(s):
 
     # Adjust colors and strings to match the state.
     the_color_array [0][0] = "calendar.jpg"
-    the_string_array[0][0] = "2022"
+    the_string_array[0][0] = f"{s.time + 2022}"
     
     the_color_array [0][1] = "money.jpg"
     the_string_array[0][1] = "$" + str(s.m)
