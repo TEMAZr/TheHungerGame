@@ -99,7 +99,7 @@ class State:
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
         # figure out how to end game if there are no available tasks
-        if self.h <= 20 or self.m <= 200 or self.h >= 90:
+        if self.h <= 35 or self.m <= 200 or self.h >= 90:
             print(self.goal_message())
             return True
         return False
@@ -204,8 +204,13 @@ msg = "As cool as rocket trucks are, you made the right choice. Maybe now Dennyv
 task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
+name = "+$500: Offerings to God"
+msg = "The people of Dennyville appreciate your effort and raised money to give you more funds. Use them wisely!" 
+task7 = Task(name, msg, 0, 0, 0, 5, 0, -500, 5, 2)
+phi7 = Operator(task7.name, lambda s: s.can_move(task7), lambda s: s.move(task7))
+
 # TODO: add money operator
 # TODO: add other negative operators
 
-TASKS = [task0, task1, task2, task3, task4, task5, task6]
-OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6]
+TASKS = [task0, task1, task2, task3, task4, task5, task6, task7]
+OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7]
