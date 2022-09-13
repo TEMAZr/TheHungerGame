@@ -56,6 +56,11 @@ class State:
 
     def move(self, t):
         # global ROOT
+        if self.is_goal():
+            # holdwindow.destroy()
+            # quit()
+            # print("killing process")
+            sys.exit(1)
         new = State(self)
         new.p += t.dp
         new.wp += t.dwp
@@ -70,11 +75,6 @@ class State:
         t.done()
         if not t.can_do_again(): t.set_name("Unavailable") # truth be told, idk if this works, but I figured I'd try it so people don't keep trying to use it from the visual dropdown menu
         if t.times_used == 1: print(t.get_message())
-        if self.is_goal():
-            # holdwindow.destroy()
-            # quit()
-            # print("killing process")
-            sys.exit(1)
         return new
 
     def can_move(self, t):

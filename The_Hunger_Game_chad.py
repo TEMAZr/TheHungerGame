@@ -58,6 +58,15 @@ class State:
 
     def move(self, t):
         # global ROOT
+        if self.is_goal():
+            # holdwindow.destroy()
+            # quit()
+            # print("killing process")
+            # sys.exit(1)
+            # self.close_window()
+            newwindow = tk.Toplevel(State.holdwindow)
+            newwindow.geometry("500x500")
+            newwindow.title("YEET")
         new = State(self)
         new.p += t.dp
         new.wp += t.dwp
@@ -72,15 +81,6 @@ class State:
         t.done()
         if not t.can_do_again(): t.set_name("Unavailable") # truth be told, idk if this works, but I figured I'd try it so people don't keep trying to use it from the visual dropdown menu
         if t.times_used == 1: print(t.get_message())
-        if self.is_goal():
-            # holdwindow.destroy()
-            # quit()
-            # print("killing process")
-            # sys.exit(1)
-            # self.close_window()
-            newwindow = tk.Toplevel(State.holdwindow)
-            newwindow.geometry("500x500")
-            newwindow.title("YEET")
         return new
 
     def can_move(self, t):
@@ -162,6 +162,31 @@ class Task:
     def __str__(self):
         return str(self.name)
 
+class CrisisEvent:
+
+    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch):
+        self.name = name
+        self.msg = msg
+        self.dp = dp
+        self.dwp = dwp
+        self.dwd = dwd
+        self.dbh = dbh
+        self.dch = dch
+        self.active = False
+        self.turns_active = 0
+
+    def activate(self):
+        self.active = True
+
+    def resolve(self):
+        self.active = False
+
+    def add_turn_active(self):
+        self.turns_active += 1
+
+    def __str__(self):
+        return str(self.name)
+    
 class Operator:
 
   def __init__(self, name, precond, state_transf):
@@ -222,3 +247,17 @@ phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6)
 
 TASKS = [task0, task1, task2, task3, task4, task5, task6]
 OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6]
+
+# Crises
+
+name = "Dry Dry Dennyville"
+msg = "Dennyville is experiencing a severe drought, which has become all too common in recent years. Farms are struggling to upkeep their crops, which is making food harder to come by. A lot of people are praying to you right now. Do the right thing!"
+crisis0 = CrisisEvent(name, msg, 70, 0, 0, 120, 0)
+
+name = "Billionaire Blowout!"
+msg = "Dennyville aristocrats are mad they have to pay more in taxes. One billionaire and CEO of [TBD] has threatened to withdraw their company from Dennyville if the taxes aren’t lowered soon."
+crisis1 = CrisisEvent(name, msg, 0, 0, 0, 0, 0) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
+
+name = "Enterprise Exodus"
+msg = "After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result."
+crisis2 = CrisisEvent(name, msg, 0, 0, 90, 0)
