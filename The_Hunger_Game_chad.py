@@ -5,6 +5,8 @@ PROBLEM_AUTHORS = ['S. Mahankali', 'Z. Tu', 'A. Willis', 'D. Khani']
 PROBLEM_CREATION_DATE = "9-SEP-2022"
 PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
 
+import Tk_SOLUZION_Client3 as tks3
+import tkinter as tk
 import sys
 
 class State:
@@ -74,7 +76,11 @@ class State:
             # holdwindow.destroy()
             # quit()
             # print("killing process")
-            sys.exit(1)
+            # sys.exit(1)
+            # self.close_window()
+            newwindow = tk.Toplevel(State.holdwindow)
+            newwindow.geometry("500x500")
+            newwindow.title("YEET")
         return new
 
     def can_move(self, t):
@@ -115,6 +121,13 @@ class State:
         if self.m <= 200: return "lol u broke, it's a skill issue"
         if self.h >= 90: return "the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry)"
         return "Dennyville is ever grateful for your contributions! bye lul"
+    
+    @staticmethod
+    def give_window(window):
+        State.holdwindow = window
+
+    def close_window(self):
+        State.holdwindow.destroy()
 
 def copy_state(s):
     return State(old=s)

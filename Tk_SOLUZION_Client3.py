@@ -32,7 +32,7 @@ Last updated 17 Sept. 2019. --Steve Tanimoto
 STEP=0; DEPTH=0; OPERATORS=[]; CURRENT_STATE=None; STATE_STACK=[]
 APPLICABILITY_VECTOR = []
 
-problem_name = 'The_Hunger_Game_text' # Default problem name. Edit or give a command-line parameter to change it.
+problem_name = 'The_Hunger_Game_chad' # Default problem name. Edit or give a command-line parameter to change it.
 
 
 def compute_applicability_vector():
@@ -306,7 +306,7 @@ if __name__ == '__main__':
   STATE_STACK = []
   TITLE="Tk_SOLUZION_Client (Version 3)"
 
-  CURRENT_STATE = PROBLEM.State()  
+  CURRENT_STATE = PROBLEM.State()
   STATE_STACK = [CURRENT_STATE]
   compute_applicability_vector()
 
@@ -314,6 +314,7 @@ if __name__ == '__main__':
     print("Trying to initialize the visualization")
     PROBLEM.render_state = VIS.render_state
     initialize_tk()
+    # PROBLEM.State.give_window(ROOT)
     VIS.initialize_vis(STATE_WINDOW,State_array, CURRENT_STATE)
     LOWER_GUI_PART = lower_gui_part(STATE_WINDOW)
     LOWER_GUI_PART.update_choices()
