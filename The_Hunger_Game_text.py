@@ -183,12 +183,12 @@ msg = "Some small-scale farms do not have access to modern storage equipment, or
 task0 = Task(name, msg, 0, -3, 0, 0, 0, 165, 3)
 phi0 = Operator(task0.name, lambda s: s.can_move(task0), lambda s: s.move(task0))
 
-name = "$1500: Reconstruct federal and state roads nearby and leading into Dennyville."
+name = "$1500: Reconstruct roads near the city"
 msg = "Trucking is vital to farms’ success. In the United States, 70% of agricultural and food products travel by truck to their destinations. However, many roads aren’t in the best shape, which hinders transportation, especially of perishable goods. Because you fixed up major roadways in the Dennyville area, less food will be wasted in transit!"
 task1 = Task(name, msg, 0, 0, -7, 0, 0, 1500, 1)
 phi1 = Operator(task1.name, lambda s: s.can_move(task1), lambda s: s.move(task1))
 
-name = "$50: Launch a month-long ad campaign to bring awareness to household food waste."
+name = "$50: Ad campaign against household food waste."
 msg = "You’ve pestered all of Dennyville with your relentless ads… but maybe that’s a good thing. A lot of people don’t know that households generate 31% of all food waste in industrialized countries. By encouraging Dennyville residents to build habits such as planning meals, eating leftovers, using the freezer to prolong shelf life, and donating excess food, the area has seen a decrease in food waste."
 task2 = Task(name, msg, 0, 0, 0, -5, 15, 50, 1)
 phi2 = Operator(task2.name, lambda s: s.can_move(task2), lambda s: s.move(task2))
@@ -198,12 +198,12 @@ msg = "Its effect on better-off individuals is limited, but the stimulus check p
 task3 = Task(name, msg, 0, 0, 0, 7, 0, 1000, 1)
 phi3 = Operator(task3.name, lambda s: s.can_move(task3), lambda s: s.move(task3))
 
-name = "$100: Provide Dennyville students in low-income families with free school lunch."
+name = "$100: Provide low-income students with free school lunch."
 msg = "School lunch has a surprisingly large impact on hunger, with a 14% reduction in food insufficiency in United States households with one or more children receiving free or reduced-price school lunch. Dennyville’s families are very happy with your choice."
 task4 = Task(name, msg, 0, 0, 0, 7, 0, 100, 1)
 phi4 = Operator(task4.name, lambda s: s.can_move(task4), lambda s: s.move(task4))
 
-name = "$500: Appear in Elon Musk’s mind and convince him to invent the rocket truck!"
+name = "$500: Convince Elon Musk to invent the rocket truck!"
 msg = "Rocket trucks are so very fast, but they also liquidate their cargo and sometimes other vehicles. Ironically, with this advance in technology, you’ve caused the trucking industry a great setback and created a whole bunch of food waste. You’re lucky everyone is mad at Elon Musk and not the god that sent him down this wretched path."
 task5 = Task(name, msg, 0, 0, 50, 0, 0, 500, 1)
 phi5 = Operator(task5.name, lambda s: s.can_move(task5), lambda s: s.move(task5))
