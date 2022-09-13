@@ -99,7 +99,7 @@ def render_state(s):
                                   caption=caption)
     #print("the_state_array is: "+str(the_state_array))
     the_state_array.show()
-    redraw.Redraw.draw()
+    # redraw.Redraw.draw()
 
 print("TheHungerGame VIS file has been imported.")
     

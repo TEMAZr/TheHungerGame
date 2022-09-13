@@ -1,4 +1,5 @@
 import tkinter as tk
+import Tk_SOLUZION_Client3 as tks3
 
 class Redraw:
     holdwindow = None
@@ -19,5 +20,5 @@ class Redraw:
         print("Redrawn")
         Redraw.canvas.delete("all")
         Redraw.canvas.configure(bg=Redraw.colors[Redraw.counter])
-        tk.Misc.lift(Redraw.canvas)
+        Redraw.canvas.create_text(200,200, text=f"Length of applicability vector: {len(tks3.APPLICABILITY_VECTOR)}")
         Redraw.counter += 1
