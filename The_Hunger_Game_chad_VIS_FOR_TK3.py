@@ -8,6 +8,7 @@ It uses three jpg images for showing missionaries, cannibals, and the boat.
 from tkinter import font
 import os
 # from The_Hunger_Game_text import *
+import redraw
 
 myFont=None
 
@@ -21,12 +22,16 @@ ROOT = None
 THE_CANVAS = None
 
 def initialize_vis(st_win, state_arr, initial_state):
-  global STATE_WINDOW, STATE_ARRAY, ROOT, THE_CANVAS
+  global STATE_WINDOW, STATE_ARRAY, ROOT, THE_CANVAS, WIDTH, HEIGHT
   # State.holdwindow = ROOT
   STATE_WINDOW = st_win
   STATE_ARRAY = state_arr
   STATE_WINDOW.winfo_toplevel().title(TITLE)
+  # r = redraw.Redraw(STATE_WINDOW.master, WIDTH, HEIGHT)
   render_state(initial_state)
+
+def give_canvas(canvas):
+  r = redraw.Redraw(canvas, WIDTH, HEIGHT)
   
 def render_state(s):
     # Note that font creation is only allowed after the Tk root has been
@@ -94,6 +99,7 @@ def render_state(s):
                                   caption=caption)
     #print("the_state_array is: "+str(the_state_array))
     the_state_array.show()
+    redraw.Redraw.draw()
 
 print("TheHungerGame VIS file has been imported.")
     
