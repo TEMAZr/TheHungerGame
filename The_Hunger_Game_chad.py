@@ -260,4 +260,4 @@ crisis1 = CrisisEvent(name, msg, 0, 0, 0, 0, 0) # note: it may have no effect no
 
 name = "Enterprise Exodus"
 msg = "After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result."
-crisis2 = CrisisEvent(name, msg, 0, 0, 90, 0)
+crisis2 = CrisisEvent(name, msg, 0, 0, 0, 90, 0)
