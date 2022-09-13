@@ -60,6 +60,7 @@ class State:
     def move(self, t):
         # global ROOT
         new = State(self)
+<<<<<<< HEAD
         new.p += t.dp
         new.wp += t.dwp
         new.wd += t.dwd
@@ -68,6 +69,16 @@ class State:
         new.m -= t.cost
         new.d = new.calc_total_distribution()
         new.w = new.calc_total_waste()
+=======
+        new.p += dp
+        new.wp += dwp
+        new.wd += dwd
+        new.bh += dbh
+        new.ch += dch
+        new.m -= cost
+        new.d = min(new.p,new.calc_total_distribution())
+        new.w = max(0,new.calc_total_waste())
+>>>>>>> a91f41c0c480f1da6972919b0fd45f2ae7aaad11
         new.h = new.calc_hunger()
         t.done()
         if not t.can_do_again(): t.set_name("Unavailable") # truth be told, idk if this works, but I figured I'd try it so people don't keep trying to use it from the visual dropdown menu
