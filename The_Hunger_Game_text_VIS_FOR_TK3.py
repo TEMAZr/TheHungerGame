@@ -6,6 +6,7 @@ It uses three jpg images for showing missionaries, cannibals, and the boat.
 
 '''
 from tkinter import font
+import os
 # from The_Hunger_Game_text import *
 
 myFont=None
@@ -64,7 +65,10 @@ def render_state(s):
     the_string_array[0][1] = "$" + str(s.m)
 
     for i in range(36):
-      the_color_array[int(i/6)+1][i%6+1] = f"mapimages\mapslice_{i+1:02}.png"
+      if os.name == "posix":
+        the_color_array[int(i/6)+1][i%6+1] = f"mapimages/mapslice_{i+1:02}.png"
+      else:
+        the_color_array[int(i/6)+1][i%6+1] = f"mapimages\mapslice_{i+1:02}.png"
 
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red
