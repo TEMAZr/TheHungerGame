@@ -9,6 +9,7 @@ PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
 
 # from Tk_SOLUZION_Client3 import *
 # import tkinter as tk
+import sys
 
 class State:
 
@@ -73,12 +74,11 @@ class State:
         t.done()
         if not t.can_do_again(): t.set_name("Unavailable") # truth be told, idk if this works, but I figured I'd try it so people don't keep trying to use it from the visual dropdown menu
         if t.times_used == 1: print(t.get_message())
-        # if self.is_goal():
-        #     try:
-        #         holdwindow.destroy()
-        #         quit()
-        #     except:
-        #         print(type(holdwindow))
+        if self.is_goal():
+            # holdwindow.destroy()
+            # quit()
+            # print("killing process")
+            sys.exit(1)
         return new
 
     def can_move(self, t):
@@ -103,7 +103,7 @@ class State:
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
         # figure out how to end game if there are no available tasks
-        if self.h <= 20 or self.m <= 0 or self.h >= 90:
+        if self.h <= 20 or self.m <= 200 or self.h >= 90:
             print(self.goal_message())
             return True
         return False
@@ -116,7 +116,7 @@ class State:
         return (str(self)).__hash__()
 
     def goal_message(self):
-        if self.m <= 0: return "lol u broke, it's a skill issue"
+        if self.m <= 200: return "lol u broke, it's a skill issue"
         if self.h >= 90: return "the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry)"
         return "Dennyville is ever grateful for your contributions! bye lul"
     
