@@ -12,8 +12,8 @@ import redraw
 
 myFont=None
 
-WIDTH = int(2732*0.3)-5
-HEIGHT = int(2048*0.3)-6
+WIDTH = int(2732*0.25)-1
+HEIGHT = int(2048*0.25)
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
