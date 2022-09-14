@@ -12,8 +12,8 @@ import redraw
 
 myFont=None
 
-WIDTH = int(2732*0.25)-1
-HEIGHT = int(2048*0.25)
+WIDTH = int(2732*0.2)-7
+HEIGHT = int(2048*0.2)-1
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
@@ -39,7 +39,7 @@ def render_state(s):
     # and we do it (the first time this method is called).
     global myFont
     if not myFont:
-        myFont = font.Font(family="Helvetica", size=12)
+        myFont = font.Font(family="Helvetica", size=10)
     #print("In render_state, state is "+str(s))
     # Create the default array of colors
 
@@ -72,6 +72,12 @@ def render_state(s):
         the_color_array[int(i/11)][i%11] = f"mapimagesv2/mapslicev2_{i+1:02}.jpg"
       else:
         the_color_array[int(i/11)][i%11] = f"mapimagesv2\mapslicev2_{i+1:02}.jpg"
+
+    if s.crisis is not None:
+      if os.name == "posix":
+        the_color_array[0][10] = f"mapimagesv2/crisis_active_02.jpg"
+      else:
+        the_color_array[0][10] = f"mapimagesv2\crisis_active_02.jpg"
 
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red
