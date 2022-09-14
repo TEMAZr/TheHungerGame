@@ -5,6 +5,7 @@ PROBLEM_AUTHORS = ['S. Mahankali', 'Z. Tu', 'A. Willis', 'D. Khani']
 PROBLEM_CREATION_DATE = "9-SEP-2022"
 PROBLEM_DESC = '\"It is bad for people to starve\" - Michael'
 
+from operator import truediv
 import sys
 
 class State:
@@ -204,13 +205,47 @@ msg = "As cool as rocket trucks are, you made the right choice. Maybe now Dennyv
 task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
-name = "+$500: Offerings to God"
-msg = "The people of Dennyville appreciate your effort and raised money to give you more funds. Use them wisely!" 
-task7 = Task(name, msg, 0, 0, 0, 5, 0, -500, 5, 2)
+name = "$70: Donate Usable Food Waste"
+msg = "You have observed that large amounts of usable food are being wasted by corporate policies and overspending by households. You encourage food donations from corporations and households which helps people in need and reduces the amount of food going to landfills."
+task7 = Task(name, msg, 0, -5, 2, 10, 9, 70, 5, 2)
 phi7 = Operator(task7.name, lambda s: s.can_move(task7), lambda s: s.move(task7))
+
+name = "+$100: Raise taxes on the top 1%"
+msg = "Down with the rich! In order to help the starving population, you elect to add extra taxes on the top 1% of residents, income-wise. This may make them buy a little less food, but you have more funds to use now!" 
+task8 = Task(name, msg, 0, 0, 0, -2, 0, -100, 2, 1)
+phi8 = Operator(task8.name, lambda s: s.can_move(task8), lambda s: s.move(task8))
+
+name = "$100: Mitigate Climate Change Damages"
+msg = "Climate change frequently affects how much food production can be made and disasters can damage infrastructure and homes. By funding repairs of infrastructure, you made a valiant effort to repair climate change effects, but what happens when the next disaster comes through? Better luck slowing climate change instead!" 
+task9 = Task(name, msg, 0, 0, 0, 0, 1, 100, 2, 3)
+phi9 = Operator(task9.name, lambda s: s.can_move(task9), lambda s: s.move(task9))
+
+name = "+$200: Raise funds for people in need"
+msg = "People need food, but you don’t seem to have the means to help! You look to your beloved subjects for help. Thankfully, they agree that there is a need for action and raise some funds to help your cause. It seems Dennyville has got your back." 
+task10 = Task(name, msg, 0, 0, 0, 4, 3, -200, 3, 4)
+phi10 = Operator(task10.name, lambda s: s.can_move(task10), lambda s: s.move(task10))
+
+name = "$120: Creating more GMOs. They look strange..."
+msg = "One aspect of food waste is the short longevity of food and the refusal of shoppers to buy food over ‘sell by’ dates and if they look strange. You try to preserve food longer by injecting produce with an experimental serum. Now the food looks a bit… alien. Looks like you did the opposite of what you wanted…" 
+task11 = Task(name, msg, 0, 15, 0, -10, -5, 120, 2, 5)
+phi11 = Operator(task11.name, lambda s: s.can_move(task11), lambda s: s.move(task11))
+
+name = "$500: Add wind farm around Dennyville"
+msg = "As god, you encourage all of your disciples, aka the people of Dennyville, that renewable energy is the way of the future! They, of course, agree and install a wind farm on the outskirts of town. The new wind farm is a good way to slow the effects of climate change, prolongs production and bonus, your farmers now have a long term source of income using harvestable wind!" 
+task12 = Task(name, msg, 10, 0, 0, 5, 6, 500, 2, 6)
+phi12 = Operator(task12.name, lambda s: s.can_move(task12), lambda s: s.move(task12))
+
+name = "$300: Mechanize food factories"
+msg = "Human error? Why not use robots instead! You decide to mechanize major food production facilities in the Dennyville area, production has increased. But, there are a lot of people out of a job now… Would sustainability be better than more industrial work?" 
+task13 = Task(name, msg, 8, 0, 0, -12, 2, 300, 2, 4)
+phi13 = Operator(task13.name, lambda s: s.can_move(task13), lambda s: s.move(task13))
+
+
 
 # TODO: add money operator
 # TODO: add other negative operators
 
-TASKS = [task0, task1, task2, task3, task4, task5, task6, task7]
-OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7]
+TASKS = [task0, task1, task2, task3, task4, task5, task6, task7,\
+     task8, task9, task10, task11, task12, task13] 
+OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7,\
+    phi8, phi9, phi10, phi11, phi12, phi13]
