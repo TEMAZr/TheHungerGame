@@ -12,8 +12,8 @@ import redraw
 
 myFont=None
 
-WIDTH = 2732*0.25
-HEIGHT = 2048*0.25
+WIDTH = int(2732*0.3)-5
+HEIGHT = int(2048*0.3)-6
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
@@ -39,7 +39,7 @@ def render_state(s):
     # and we do it (the first time this method is called).
     global myFont
     if not myFont:
-        myFont = font.Font(family="Helvetica", size=18, weight="bold")
+        myFont = font.Font(family="Helvetica", size=12)
     #print("In render_state, state is "+str(s))
     # Create the default array of colors
 
@@ -59,21 +59,19 @@ def render_state(s):
 
 
     #side hunger bar
-    the_string_array[2][0] = "Hunger:"
-    the_string_array[3][0] = f"{s.h:.2f}%"
+    the_string_array[3][0] = "Hunger:"
+    the_string_array[4][0] = f"{s.h:.2f}%"
 
     # Adjust colors and strings to match the state.
-    the_string_array[0][0] = f"{s.time + 2022}"
+    the_string_array[0][1] = f"{s.time + 2022}  "
 
-    the_string_array[0][1] = "$" + str(s.m)
+    the_string_array[0][2] = "$" + str(s.m) + " "
 
-    the_color_array [0][1] = "crisis_inactive.png"
-
-    for i in range(36):
+    for i in range(88):
       if os.name == "posix":
-        the_color_array[int(i/8)][i%11] = f"mapimagesv2/mapslicev2_{i+1:02}.png"
+        the_color_array[int(i/11)][i%11] = f"mapimagesv2/mapslicev2_{i+1:02}.jpg"
       else:
-        the_color_array[int(i/8)][i%11] = f"mapimagesv2\mapslicev2_{i+1:02}.png"
+        the_color_array[int(i/11)][i%11] = f"mapimagesv2\mapslicev2_{i+1:02}.jpg"
 
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red

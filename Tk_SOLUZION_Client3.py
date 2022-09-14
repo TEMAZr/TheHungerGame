@@ -32,7 +32,7 @@ Last updated 17 Sept. 2019. --Steve Tanimoto
 STEP=0; DEPTH=0; OPERATORS=[]; CURRENT_STATE=None; STATE_STACK=[]
 APPLICABILITY_VECTOR = []
 
-problem_name = 'The_Hunger_Game_text' # Default problem name. Edit or give a command-line parameter to change it.
+problem_name = 'The_Hunger_Game_chad' # Default problem name. Edit or give a command-line parameter to change it.
 
 
 def compute_applicability_vector():
