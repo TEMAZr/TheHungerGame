@@ -78,7 +78,13 @@ class State:
         self.m = 1000 # amount of money available - change later
         self.time = 0 # time passed
         self.rocket_truck = False
+        self.operMSG = '''Welocome to the Hunger Game! You find yourself in the town of Dennyville.
+        This city is in a crisis: hunger rates have spiked to a new high. You, as the god controlling this city, 
+        must help the citizens get hunger rates under control. 
+        You have various operators at your disposal, all of which cost or give you money. 
+        Help Dennyville lower its hunger rate under 35% as fast as possible! Good Luck!'''
         self.crisis = None
+        self.crisisMSG = "No Crisis at the Moment!"
         if old is not None:
             self.p = old.p
             self.wp = old.wp
@@ -88,7 +94,9 @@ class State:
             self.m = old.m
             self.time = old.time
             self.rocket_truck = old.rocket_truck
+            self.operMSG = old.operMSG
             self.crisis = old.crisis
+            self.crisisMSG = old.crisisMSG
         self.d = 0
         self.calc_total_distribution()
         self.w = 0
@@ -161,6 +169,7 @@ class State:
         new.ch += t.dch
         new.m -= t.cost
         new.time += t.time
+        new.operMSG = t.msg
         new.d = new.calc_total_distribution()
         new.w = new.calc_total_waste()
         new.h = new.calc_hunger()
@@ -171,18 +180,18 @@ class State:
                 if new.crisis is not None:
                     new.crisis.clear_turns_active()
                 new.crisis = war_lite
-                new.crisis.print_msg()
+                new.crisis.msg
         if new.crisis is None:
             if t.name == "+$100: Raise taxes on the top 1%" and t.times_used >= 2:
                 if random.randint(0, 2) == 0:
                     new.crisis = blowout
-                    new.crisis.print_msg()
+                    new.crisisMSG = new.crisis.msg
             if random.randint(0, 10) == 0:
                 new.crisis = random.choice([drought, sinkhole, hornets])
-                new.crisis.print_msg()
+                new.crisis.msg
         if new.crisis == blowout and new.crisis.turns_active >= 3:
             new.crisis = exodus
-            new.crisis.print_msg()
+            new.crisis.msg
         new.apply_crisis()
         return new
 

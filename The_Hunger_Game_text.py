@@ -23,7 +23,8 @@ class State:
         self.rocket_truck = False
         self.operMSG = '''Welocome to the Hunger Game! You find yourself in the town of Dennyville.
         This city is in a crisis: hunger rates have spiked to a new high. You, as the god controlling this city, 
-        must help the citizens get hunger rates under control. You have various operators at your disposal. 
+        must help the citizens get hunger rates under control. 
+        You have various operators at your disposal, all of which cost or give you money. 
         Help Dennyville lower its hunger rate under 35% as fast as possible! Good Luck!'''
         if old is not None:
             self.p = old.p
