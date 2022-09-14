@@ -12,8 +12,8 @@ import redraw
 
 myFont=None
 
-WIDTH = 700
-HEIGHT = 490
+WIDTH = 2732*0.25
+HEIGHT = 2048*0.25
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
@@ -50,12 +50,12 @@ def render_state(s):
     orange = (248, 102, 36)
     yellow = (234, 196, 53)
     
-    row = [blue]* 7
-    the_color_array = [row, row[:], row[:], row[:], row[:], row[:], row[:]]
+    row = [blue]* 11
+    the_color_array = [row, row[:], row[:], row[:], row[:], row[:], row[:], row[:]]
     
     # Now create the default array of string labels.
-    row = ['' for i in range(7)]
-    the_string_array = [row, row[:], row[:], row[:], row[:], row[:], row[:]]
+    row = ['' for i in range(11)]
+    the_string_array = [row, row[:], row[:], row[:], row[:], row[:], row[:], row[:]]
 
 
     #side hunger bar
@@ -63,17 +63,17 @@ def render_state(s):
     the_string_array[3][0] = f"{s.h:.2f}%"
 
     # Adjust colors and strings to match the state.
-    the_color_array [0][0] = "calendar.jpg"
     the_string_array[0][0] = f"{s.time + 2022}"
-    
-    the_color_array [0][1] = "money.jpg"
+
     the_string_array[0][1] = "$" + str(s.m)
+
+    the_color_array [0][1] = "crisis_inactive.png"
 
     for i in range(36):
       if os.name == "posix":
-        the_color_array[int(i/6)+1][i%6+1] = f"mapimages/mapslice_{i+1:02}.png"
+        the_color_array[int(i/8)][i%11] = f"mapimagesv2/mapslicev2_{i+1:02}.png"
       else:
-        the_color_array[int(i/6)+1][i%6+1] = f"mapimages\mapslice_{i+1:02}.png"
+        the_color_array[int(i/8)][i%11] = f"mapimagesv2\mapslicev2_{i+1:02}.png"
 
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red

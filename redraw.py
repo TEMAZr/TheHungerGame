@@ -44,5 +44,9 @@ class Redraw:
         newwindow.geometry("500x500")
         newwindow.title("Alert!")
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
-        newcanvas.create_text(250, 250, text=text)
+        newcanvas.create_text(250, 250, text=text, font=("Helvetica",48,"bold"))
         newcanvas.pack()
+
+    @staticmethod
+    def imagewindow(window):
+        pass
