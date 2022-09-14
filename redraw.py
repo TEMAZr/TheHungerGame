@@ -33,5 +33,16 @@ class Redraw:
         newwindow.title("Alert!")
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
         newcanvas.create_text(250, 250, text=text)
-        sleep(2)
-        newwindow.destroy()
+        newcanvas.pack()
+    
+    @staticmethod
+    def soloalert(window, text):
+        # useful https://stackoverflow.com/questions/15306222/automatically-close-window-after-a-certain-time
+        # this one too https://stackoverflow.com/questions/14336472/how-to-create-new-tkinter-window-after-mainloop
+        print("Attempting solo alert")
+        newwindow = tk.Toplevel(window)
+        newwindow.geometry("500x500")
+        newwindow.title("Alert!")
+        newcanvas = tk.Canvas(newwindow, width=500, height=500)
+        newcanvas.create_text(250, 250, text=text)
+        newcanvas.pack()

@@ -9,6 +9,7 @@ import Tk_SOLUZION_Client3 as tks3
 import tkinter as tk
 import sys
 import random
+import redraw
 
 class CrisisEvent:
 
@@ -151,9 +152,10 @@ class State:
             # print("killing process")
             # sys.exit(1)
             # self.close_window()
-            newwindow = tk.Toplevel(State.holdwindow)
-            newwindow.geometry("500x500")
-            newwindow.title("YEET")
+            # newwindow = tk.Toplevel(State.holdwindow)
+            # newwindow.geometry("500x500")
+            # newwindow.title("YEET")
+            redraw.Redraw.soloalert(State.holdwindow, "You LOSE")
         if random.randint(0, 0) == 0: #0, 10
             # c = random.choice(CRISES)
             c = CRISES[0]
