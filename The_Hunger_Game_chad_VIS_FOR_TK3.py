@@ -30,8 +30,8 @@ def initialize_vis(st_win, state_arr, initial_state):
   # r = redraw.Redraw(STATE_WINDOW.master, WIDTH, HEIGHT)
   render_state(initial_state)
 
-def give_canvas(canvas):
-  r = redraw.Redraw(canvas, WIDTH, HEIGHT)
+def give_canvas(canvas, window):
+  r = redraw.Redraw(canvas, WIDTH, HEIGHT, window)
   
 def render_state(s):
     # Note that font creation is only allowed after the Tk root has been
@@ -99,7 +99,8 @@ def render_state(s):
                                   caption=caption)
     #print("the_state_array is: "+str(the_state_array))
     the_state_array.show()
-    # redraw.Redraw.draw()
+    # redraw.Redraw.drawcanvas()
+    # redraw.Redraw.alert("ope")
 
 print("TheHungerGame VIS file has been imported.")
     
