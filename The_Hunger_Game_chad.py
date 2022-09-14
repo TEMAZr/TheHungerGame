@@ -32,6 +32,9 @@ class CrisisEvent:
     def add_turn_active(self):
         self.turns_active += 1
 
+    def __eq__(self, c2):
+        return c2.name == self.name and c2.msg == self.msg and c2.dp == self.dp and c2.dwp == self.dwp and c2.dwd == self.dwd and c2.dbh == self.dbh and c2.dch == self.dch
+
     def __str__(self):
         return str(self.name)
 
@@ -90,14 +93,16 @@ class State:
         self.w = 0
         self.calc_total_waste()
         self.h = 0
-        self.calc_hunger()
 
         global CRISES
         if random.randint(0, 10) == 0:
-            c = random.choice(CRISES)
+            # c = random.choice(CRISES)
+            c = CRISES[0]
             c.activate()
             print(str(c.msg))
         self.apply_crises()
+
+        self.calc_hunger()
     
     def calc_total_distribution(self):
         self.d = self.p - self.wp - self.wd # food that gets off farms and to corps/retailers
@@ -128,6 +133,17 @@ class State:
                 self.wd *= c.dwd
                 self.bh *= c.dbh
                 self.ch *= c.dch
+
+    def resolve_crisis(self, crisis):
+        global CRISES
+        self.p *= 1/crisis.dp
+        self.wp *= 1/crisis.dwp
+        self.wd *= 1/crisis.dwd
+        self.bh *= 1/crisis.dbh
+        self.ch *= 1/crisis.dch
+        for c in CRISES:
+            if c == crisis: c.resolve()
+        self.calc_hunger()
 
     def move(self, t):
         # global ROOT
@@ -290,8 +306,10 @@ msg = "As cool as rocket trucks are, you made the right choice. Maybe now Dennyv
 task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
+phi7 = Operator("Resolve Dry Dry Dennyville", lambda s: True, lambda s: s.resolve_crisis(crisis0))
+
 # TODO: add money operator
 # TODO: add other negative operators
 
 TASKS = [task0, task1, task2, task3, task4, task5, task6]
-OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6]
+OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7]
