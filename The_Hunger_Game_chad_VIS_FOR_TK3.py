@@ -94,7 +94,7 @@ def render_state(s):
         the_color_array[6][0] = f"mapimagesv2\hunglvl2_67.jpg"
         the_color_array[5][0] = f"mapimagesv2\hunglvl2_56.jpg"
 
-    if s.h >= 60:
+    if s.h >= 55:
       if os.name == "posix":
         the_color_array[6][0] = f"mapimagesv2/hunglvl3_67.jpg"
         the_color_array[5][0] = f"mapimagesv2/hunglvl3_56.jpg"
@@ -103,6 +103,26 @@ def render_state(s):
         the_color_array[6][0] = f"mapimagesv2\hunglvl3_67.jpg"
         the_color_array[5][0] = f"mapimagesv2\hunglvl3_56.jpg"
         the_color_array[4][0] = f"mapimagesv2\hunglvl3_45.jpg"
+
+    if s.h >= 70:
+      if os.name == "posix":
+        the_color_array[6][0] = f"mapimagesv2/hunglvl4_67.jpg"
+        the_color_array[5][0] = f"mapimagesv2/hunglvl4_56.jpg"
+        the_color_array[4][0] = f"mapimagesv2/hunglvl4_45.jpg"
+      else:
+        the_color_array[6][0] = f"mapimagesv2\hunglvl4_67.jpg"
+        the_color_array[5][0] = f"mapimagesv2\hunglvl4_56.jpg"
+        the_color_array[4][0] = f"mapimagesv2\hunglvl4_45.jpg"
+
+    if s.h >= 85:
+      if os.name == "posix":
+        the_color_array[6][0] = f"mapimagesv2/hunglvl5_67.jpg"
+        the_color_array[5][0] = f"mapimagesv2/hunglvl5_56.jpg"
+        the_color_array[4][0] = f"mapimagesv2/hunglvl5_45.jpg"
+      else:
+        the_color_array[6][0] = f"mapimagesv2\hunglvl5_67.jpg"
+        the_color_array[5][0] = f"mapimagesv2\hunglvl5_56.jpg"
+        the_color_array[4][0] = f"mapimagesv2\hunglvl5_45.jpg"
 
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red
