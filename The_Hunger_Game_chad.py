@@ -13,7 +13,7 @@ import redraw
 
 class CrisisEvent:
 
-    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch):
+    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch, fix_cost):
         self.name = name
         self.msg = msg
         self.dp = dp
@@ -21,6 +21,7 @@ class CrisisEvent:
         self.dwd = dwd
         self.dbh = dbh
         self.dch = dch
+        self.fix_cost = fix_cost
         self.turns_active = 0
 
     def add_turn_active(self):
@@ -46,34 +47,34 @@ msg = '''Dennyville is experiencing a severe drought, which has become all too c
 Farms are struggling to upkeep their crops, which is making food harder to come by. 
 A lot of people are praying to you right now. Do the right thing!
 '''
-drought = CrisisEvent(name, msg, 0.7, 1, 1, 1.20, 1)
+drought = CrisisEvent(name, msg, 0.7, 1, 1, 1.20, 1, 300)
 
 name = "Billionaire Blowout!"
 msg = '''Dennyville aristocrats are mad they have to pay more in taxes. 
 One billionaire and CEO of [TBD] has threatened to withdraw their 
 company from Dennyville if the taxes aren’t lowered soon.
 '''
-blowout = CrisisEvent(name, msg, 1, 1, 1, 1, 1) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
+blowout = CrisisEvent(name, msg, 1, 1, 1, 1, 1, 200) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
 
 name = "Enterprise Exodus"
 msg = '''After many long years of business, [TBD] has finally packed up its bags and left Dennyville, 
 leaving many unemployed in its wake. Some families are struggling to put food on the table as a result.
 '''
-exodus = CrisisEvent(name, msg, 1, 1, 1, 0.85, 1)
+exodus = CrisisEvent(name, msg, 1, 1, 1, 0.85, 1, 300)
 
 name = "Homicidal Hornets"
 msg = '''You thought the 2020 plot-writers forgot about murder hornets, didn’t you? 
 Welcome to Season 2! Murder hornets have invaded Dennyville and are steadily 
 taking out the native honeybee population, reducing fertilization of crops.
 '''
-hornets = CrisisEvent(name, msg, 0.8, 1, 1, 1, 1)
+hornets = CrisisEvent(name, msg, 0.8, 1, 1, 1, 1, 200)
 
 name = "Sinkhole!"
 msg = '''A sinkhole cropped up straight in the middle of Interstate 420, 
 making the route unnavigable and cargo delivery to Dennyville more difficult. 
 This greatly affects the distribution of perishable goods like food.
 '''
-sinkhole = CrisisEvent(name, msg, 1, 1.2, 1, 1, 1)
+sinkhole = CrisisEvent(name, msg, 1, 1.2, 1, 1, 1, 100)
 
 name = "War Lite"
 msg = '''The citizens of Dennyville are outraged that so many of them are hungry 
@@ -81,7 +82,7 @@ and nobody is doing anything about it. They’ve taken to the streets of the cit
 and, in addition to refusing to purchase food, are literally burning everything down. 
 Many farmers are also on strike and refusing to produce food. Something tells me you should intervene...
 '''
-war_lite = CrisisEvent(name, msg, 0.8, 1, 1, 0.7, 1)
+war_lite = CrisisEvent(name, msg, 0.8, 1, 1, 0.7, 1, 500)
 
 class State:
 
@@ -141,7 +142,7 @@ class State:
         return max(0.01, self.h)
 
     def apply_crisis(self):
-        if self.crisis is not None:
+        if self.crisis is not None and self.crisis.turns_active == 0:
             self.p *= self.crisis.dp
             self.wp *= self.crisis.dwp
             self.wd *= self.crisis.dwd
@@ -159,6 +160,7 @@ class State:
         new.wd *= 1/self.crisis.dwd
         new.bh *= 1/self.crisis.dbh
         new.ch *= 1/self.crisis.dch
+        new.m -= self.crisis.fix_cost
         new.crisis.clear_turns_active()
         new.crisis = None
         new.calc_total_distribution()
@@ -169,7 +171,6 @@ class State:
     def move(self, t):
         # global ROOT
         global drought, blowout, exodus, hornets, sinkhole, war_lite
-        crises = [drought, hornets, sinkhole, war_lite, blowout, exodus]
         if self.is_goal():
             # holdwindow.destroy()
             # quit()
@@ -420,13 +421,13 @@ Would sustainability be better than more industrial work?'''
 task13 = Task(name, msg, 8, 0, 0, -12, 2, 300, 2, 4)
 phi13 = Operator(task13.name, lambda s: s.can_move(task13), lambda s: s.move(task13))
 
-phi14 = Operator("$300: Resolve Dry Dry Dennyville", lambda s: s.crisis == drought, lambda s: s.resolve_crisis())
-phi15 = Operator("$300: Resolve Homicidal Hornets", lambda s: s.crisis == hornets, lambda s: s.resolve_crisis())
-phi16 = Operator("$100: Resolve Sinkhole", lambda s: s.crisis == sinkhole, lambda s: s.resolve_crisis())
+phi14 = Operator("$300: Resolve Dry Dry Dennyville", lambda s: s.crisis == drought and s.m >= drought.fix_cost, lambda s: s.resolve_crisis())
+phi15 = Operator("$200: Resolve Homicidal Hornets", lambda s: s.crisis == hornets and s.m >= hornets.fix_cost, lambda s: s.resolve_crisis())
+phi16 = Operator("$100: Resolve Sinkhole", lambda s: s.crisis == sinkhole and s.m >= sinkhole.fix_cost, lambda s: s.resolve_crisis())
 
-phi17 = Operator("$200: Resolve Billionaire Blowout", lambda s: s.crisis == blowout, lambda s: s.resolve_crisis())
-phi18 = Operator("$400: Resolve Enterprise Exodus", lambda s: s.crisis == exodus, lambda s: s.resolve_crisis())
-phi19 = Operator("$500: Resolve War Lite", lambda s: s.crisis == war_lite, lambda s: s.resolve_crisis())
+phi17 = Operator("$200: Resolve Billionaire Blowout", lambda s: s.crisis == blowout and s.m >= blowout.fix_cost, lambda s: s.resolve_crisis())
+phi18 = Operator("$300: Resolve Enterprise Exodus", lambda s: s.crisis == exodus and s.m >= exodus.fix_cost, lambda s: s.resolve_crisis())
+phi19 = Operator("$500: Resolve War Lite", lambda s: s.crisis == war_lite and s.m >= war_lite.fix_cost, lambda s: s.resolve_crisis())
 
 # TODO: add money operator
 # TODO: add other negative operators
