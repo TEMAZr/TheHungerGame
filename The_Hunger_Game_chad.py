@@ -21,19 +21,19 @@ class CrisisEvent:
         self.dwd = dwd
         self.dbh = dbh
         self.dch = dch
-        self.active = False
         self.turns_active = 0
-
-    def activate(self):
-        self.active = True
-
-    def resolve(self):
-        self.active = False
 
     def add_turn_active(self):
         self.turns_active += 1
 
+    def clear_turns_active(self):
+        self.turns_active = 0
+
+    def print_msg(self):
+        print(str(self.msg))
+
     def __eq__(self, c2):
+        if c2 is None: return False
         return c2.name == self.name and c2.msg == self.msg and c2.dp == self.dp and c2.dwp == self.dwp and c2.dwd == self.dwd and c2.dbh == self.dbh and c2.dch == self.dch
 
     def __str__(self):
@@ -43,29 +43,27 @@ class CrisisEvent:
 
 name = "Dry Dry Dennyville"
 msg = "Dennyville is experiencing a severe drought, which has become all too common in recent years. Farms are struggling to upkeep their crops, which is making food harder to come by. A lot of people are praying to you right now. Do the right thing!"
-crisis0 = CrisisEvent(name, msg, 0.7, 1, 1, 1.20, 1)
+drought = CrisisEvent(name, msg, 0.7, 1, 1, 1.20, 1)
 
 name = "Billionaire Blowout!"
 msg = "Dennyville aristocrats are mad they have to pay more in taxes. One billionaire and CEO of [TBD] has threatened to withdraw their company from Dennyville if the taxes aren’t lowered soon."
-crisis1 = CrisisEvent(name, msg, 1, 1, 1, 1, 1) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
+blowout = CrisisEvent(name, msg, 1, 1, 1, 1, 1) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
 
 name = "Enterprise Exodus"
 msg = "After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result."
-crisis2 = CrisisEvent(name, msg, 1, 1, 1, 0.9, 1)
+exodus = CrisisEvent(name, msg, 1, 1, 1, 0.85, 1)
 
 name = "Homicidal Hornets"
 msg = "You thought the 2020 plot-writers forgot about murder hornets, didn’t you? Welcome to Season 2! Murder hornets have invaded Dennyville and are steadily taking out the native honeybee population, reducing fertilization of crops."
-crisis3 = CrisisEvent(name, msg, 0.8, 1, 1, 1, 1)
+hornets = CrisisEvent(name, msg, 0.8, 1, 1, 1, 1)
 
 name = "Sinkhole!"
 msg = "A sinkhole cropped up straight in the middle of Interstate 420, making the route unnavigable and cargo delivery to Dennyville more difficult. This greatly affects the distribution of perishable goods like food."
-crisis4 = CrisisEvent(name, msg, 1, 1.2, 1, 1, 1)
+sinkhole = CrisisEvent(name, msg, 1, 1.2, 1, 1, 1)
 
 name = "War Lite"
 msg = "The citizens of Dennyville are outraged that so many of them are hungry and nobody is doing anything about it. They’ve taken to the streets of the city center and, in addition to refusing to purchase food, are literally burning everything down. Many farmers are also on strike and refusing to produce food. Something tells me you should intervene..."
-crisis5 = CrisisEvent(name, msg, 0.8, 1, 1, 0.7, 1)
-
-CRISES = [crisis0, crisis1, crisis2, crisis3, crisis4, crisis5]
+war_lite = CrisisEvent(name, msg, 0.8, 1, 1, 0.7, 1)
 
 class State:
 
@@ -80,6 +78,7 @@ class State:
         self.m = 1000 # amount of money available - change later
         self.time = 0 # time passed
         self.rocket_truck = False
+        self.crisis = None
         if old is not None:
             self.p = old.p
             self.wp = old.wp
@@ -89,6 +88,7 @@ class State:
             self.m = old.m
             self.time = old.time
             self.rocket_truck = old.rocket_truck
+            self.crisis = old.crisis
         self.d = 0
         self.calc_total_distribution()
         self.w = 0
@@ -98,46 +98,43 @@ class State:
     
     def calc_total_distribution(self):
         self.d = self.p - self.wp - self.wd # food that gets off farms and to corps/retailers
-        return self.d
+        return max(0, self.d)
 
     def calc_corporation_waste(self):
-        return self.d - (self.d * self.bh/100)
+        return max(0, self.d - (self.d * self.bh/100))
 
     def calc_household_waste(self):
-        return (self.d-self.calc_corporation_waste()) - (self.d-self.calc_corporation_waste()) * self.ch/100
+        return max(0, (self.d-self.calc_corporation_waste()) - (self.d-self.calc_corporation_waste()) * self.ch/100)
     
     def calc_total_waste(self):
         self.w = self.wp + self.wd + self.calc_corporation_waste() + self.calc_household_waste()
-        return self.w
+        return min(self.p, max(0, self.w))
 
     def calc_hunger(self):
         self.h = 100 - (self.p - self.w)
         return max(0.01, self.h)
 
-    def apply_crises(self):
-        global CRISES
-        for c in CRISES:
-            if c.active:
-                c.add_turn_active()
-            if c.turns_active == 1:
-                self.p *= c.dp
-                self.wp *= c.dwp
-                self.wd *= c.dwd
-                self.bh *= c.dbh
-                self.ch *= c.dch
+    def apply_crisis(self):
+        if self.crisis is not None:
+            self.p *= self.crisis.dp
+            self.wp *= self.crisis.dwp
+            self.wd *= self.crisis.dwd
+            self.bh *= self.crisis.dbh
+            self.ch *= self.crisis.dch
+            self.crisis.turns_active += 1
+            self.calc_total_distribution()
+            self.calc_total_waste()
+            self.calc_hunger()
 
-    def resolve_crisis(self, crisis):
-        global CRISES
+    def resolve_crisis(self):
         new = copy_state(self)
-        new.p *= 1/crisis.dp
-        new.wp *= 1/crisis.dwp
-        new.wd *= 1/crisis.dwd
-        new.bh *= 1/crisis.dbh
-        new.ch *= 1/crisis.dch
-        for c in CRISES:
-            if c == crisis:
-                c.resolve()
-                c.turns_active = 0
+        new.p *= 1/self.crisis.dp
+        new.wp *= 1/self.crisis.dwp
+        new.wd *= 1/self.crisis.dwd
+        new.bh *= 1/self.crisis.dbh
+        new.ch *= 1/self.crisis.dch
+        new.crisis.clear_turns_active()
+        new.crisis = None
         new.calc_total_distribution()
         new.calc_total_waste()
         new.calc_hunger()
@@ -145,23 +142,17 @@ class State:
 
     def move(self, t):
         # global ROOT
-        global CRISES
+        global drought, blowout, exodus, hornets, sinkhole, war_lite
+        crises = [drought, hornets, sinkhole, war_lite, blowout, exodus]
         if self.is_goal():
             # holdwindow.destroy()
             # quit()
             # print("killing process")
             # sys.exit(1)
             # self.close_window()
-            # newwindow = tk.Toplevel(State.holdwindow)
-            # newwindow.geometry("500x500")
-            # newwindow.title("YEET")
-            redraw.Redraw.soloalert(State.holdwindow, "You LOSE")
-        if random.randint(0, 0) == 0: #0, 10
-            # c = random.choice(CRISES)
-            c = CRISES[0]
-            c.activate()
-            print(str(c.msg))
-        self.apply_crises()
+            newwindow = tk.Toplevel(State.holdwindow)
+            newwindow.geometry("500x500")
+            newwindow.title("YEET")
         new = State(self)
         new.p += t.dp
         new.wp += t.dwp
@@ -174,8 +165,25 @@ class State:
         new.w = new.calc_total_waste()
         new.h = new.calc_hunger()
         t.done()
-        if not t.can_do_again(): t.set_name("Unavailable") # truth be told, idk if this works, but I figured I'd try it so people don't keep trying to use it from the visual dropdown menu
         if t.times_used == 1: print(t.get_message())
+        if new.h > 80:
+            if random.randint(0, 3) == 0:
+                if new.crisis is not None:
+                    new.crisis.clear_turns_active()
+                new.crisis = war_lite
+                new.crisis.print_msg()
+        if new.crisis is None:
+            if t.name == "+$100: Raise taxes on the top 1%" and t.times_used >= 2:
+                if random.randint(0, 2) == 0:
+                    new.crisis = blowout
+                    new.crisis.print_msg()
+            if random.randint(0, 10) == 0:
+                new.crisis = random.choice([drought, sinkhole, hornets])
+                new.crisis.print_msg()
+        if new.crisis == blowout and new.crisis.turns_active >= 3:
+            new.crisis = exodus
+            new.crisis.print_msg()
+        new.apply_crisis()
         return new
 
     def can_move(self, t):
@@ -254,6 +262,9 @@ class Task:
     def get_message(self):
         return str(self.msg)
 
+    def __eq__(self, t2):
+        return self.name == t2.name and self.msg == t2.msg and self.dp == t2.dp and self.dwp == t2.dwp and self.dwd == t2.dwd and self.dbh == t2.dbh and self.dch == t2.dch
+
     def __str__(self):
         return str(self.name)
     
@@ -282,9 +293,9 @@ msg = "Some small-scale farms do not have access to modern storage equipment, or
 task0 = Task(name, msg, 0, -3, 0, 0, 0, 165, 3, 1)
 phi0 = Operator(task0.name, lambda s: s.can_move(task0), lambda s: s.move(task0))
 
-name = "$1500: Reconstruct roads near the city"
+name = "$1400: Reconstruct roads near the city"
 msg = "Trucking is vital to farms’ success. In the United States, 70% of agricultural and food products travel by truck to their destinations. However, many roads aren’t in the best shape, which hinders transportation, especially of perishable goods. Because you fixed up major roadways in the Dennyville area, less food will be wasted in transit!"
-task1 = Task(name, msg, 0, 0, -7, 0, 0, 1500, 1, 10)
+task1 = Task(name, msg, 0, 0, -10, 0, 0, 1400, 1, 10)
 phi1 = Operator(task1.name, lambda s: s.can_move(task1), lambda s: s.move(task1))
 
 name = "$50: Ad campaign against household food waste."
@@ -292,9 +303,9 @@ msg = "You’ve pestered all of Dennyville with your relentless ads… but maybe
 task2 = Task(name, msg, 0, 0, 0, -5, 15, 50, 1, 1)
 phi2 = Operator(task2.name, lambda s: s.can_move(task2), lambda s: s.move(task2))
 
-name = "$1000: Provide Dennyville residents with stimulus checks."
+name = "$900: Provide Dennyville residents with stimulus checks."
 msg = "Its effect on better-off individuals is limited, but the stimulus check prompted a significant increase in spending among lower-income residents, who are now able to put more money toward food. Dennyville thanks you for the boost, although some residents still have an issue with “free money.”"
-task3 = Task(name, msg, 0, 0, 0, 7, 0, 1000, 1, 0)
+task3 = Task(name, msg, 0, 0, 0, 9, 0, 900, 1, 0)
 phi3 = Operator(task3.name, lambda s: s.can_move(task3), lambda s: s.move(task3))
 
 name = "$100: Provide low-income students with free school lunch."
@@ -312,42 +323,48 @@ msg = "As cool as rocket trucks are, you made the right choice. Maybe now Dennyv
 task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
-name = "$70: Donate Usable Food Waste"
+name = "$70: Donate usable food waste."
 msg = "You have observed that large amounts of usable food are being wasted by corporate policies and overspending by households. You encourage food donations from corporations and households which helps people in need and reduces the amount of food going to landfills."
-task7 = Task(name, msg, 0, -5, 2, 10, 9, 70, 5, 2)
+task7 = Task(name, msg, 0, 1, 0, 4, 10, 70, 5, 2)
 phi7 = Operator(task7.name, lambda s: s.can_move(task7), lambda s: s.move(task7))
 
 name = "+$100: Raise taxes on the top 1%"
 msg = "Down with the rich! In order to help the starving population, you elect to add extra taxes on the top 1% of residents, income-wise. This may make them buy a little less food, but you have more funds to use now!" 
-task8 = Task(name, msg, 0, 0, 0, -2, 0, -100, 2, 1)
+task8 = Task(name, msg, 0, 0, 0, 0, 0, -100, 2, 1)
 phi8 = Operator(task8.name, lambda s: s.can_move(task8), lambda s: s.move(task8))
 
-name = "$100: Mitigate Climate Change Damages"
+name = "$100: Mitigate climate change damages."
 msg = "Climate change frequently affects how much food production can be made and disasters can damage infrastructure and homes. By funding repairs of infrastructure, you made a valiant effort to repair climate change effects, but what happens when the next disaster comes through? Better luck slowing climate change instead!" 
 task9 = Task(name, msg, 0, 0, 0, 0, 1, 100, 2, 3)
 phi9 = Operator(task9.name, lambda s: s.can_move(task9), lambda s: s.move(task9))
 
-name = "+$200: Raise funds for people in need"
+name = "+$200: Raise funds for people in need."
 msg = "People need food, but you don’t seem to have the means to help! You look to your beloved subjects for help. Thankfully, they agree that there is a need for action and raise some funds to help your cause. It seems Dennyville has got your back." 
-task10 = Task(name, msg, 0, 0, 0, 4, 3, -200, 3, 4)
+task10 = Task(name, msg, 0, 0, 0, 0, 0, -200, 2, 4)
 phi10 = Operator(task10.name, lambda s: s.can_move(task10), lambda s: s.move(task10))
 
-name = "$120: Creating more GMOs. They look strange..."
+name = "$120: Create more GMOs. They look strange..."
 msg = "One aspect of food waste is the short longevity of food and the refusal of shoppers to buy food over ‘sell by’ dates and if they look strange. You try to preserve food longer by injecting produce with an experimental serum. Now the food looks a bit… alien. Looks like you did the opposite of what you wanted…" 
 task11 = Task(name, msg, 0, 15, 0, -10, -5, 120, 2, 5)
 phi11 = Operator(task11.name, lambda s: s.can_move(task11), lambda s: s.move(task11))
 
-name = "$500: Add wind farm around Dennyville"
+name = "$500: Add wind farm around Dennyville."
 msg = "As god, you encourage all of your disciples, aka the people of Dennyville, that renewable energy is the way of the future! They, of course, agree and install a wind farm on the outskirts of town. The new wind farm is a good way to slow the effects of climate change, prolongs production and bonus, your farmers now have a long term source of income using harvestable wind!" 
 task12 = Task(name, msg, 10, 0, 0, 5, 6, 500, 2, 6)
 phi12 = Operator(task12.name, lambda s: s.can_move(task12), lambda s: s.move(task12))
 
-name = "$300: Mechanize food factories"
-msg = "Human error? Why not use robots instead! You decide to mechanize major food production facilities in the Dennyville area, production has increased. But, there are a lot of people out of a job now… Would sustainability be better than more industrial work?" 
-task13 = Task(name, msg, 8, 0, 0, -12, 2, 300, 2, 4)
+name = "$300: Mechanize food factories."
+msg = "Human error? Why not use robots instead! You decide to mechanize major food production facilities in the Dennyville area, so production has increased. But there are a lot of people out of a job now... Would sustainability be better than more industrial work?" 
+task13 = Task(name, msg, 8, 0, 0, -10, 2, 300, 2, 4)
 phi13 = Operator(task13.name, lambda s: s.can_move(task13), lambda s: s.move(task13))
 
-phi14 = Operator("Resolve Dry Dry Dennyville", lambda s: True, lambda s: s.resolve_crisis(crisis0))
+phi14 = Operator("$300: Resolve Dry Dry Dennyville", lambda s: s.crisis == drought, lambda s: s.resolve_crisis())
+phi15 = Operator("$300: Resolve Homicidal Hornets", lambda s: s.crisis == hornets, lambda s: s.resolve_crisis())
+phi16 = Operator("$100: Resolve Sinkhole", lambda s: s.crisis == sinkhole, lambda s: s.resolve_crisis())
+
+phi17 = Operator("$200: Resolve Billionaire Blowout", lambda s: s.crisis == blowout, lambda s: s.resolve_crisis())
+phi18 = Operator("$400: Resolve Enterprise Exodus", lambda s: s.crisis == exodus, lambda s: s.resolve_crisis())
+phi19 = Operator("$500: Resolve War Lite", lambda s: s.crisis == war_lite, lambda s: s.resolve_crisis())
 
 # TODO: add money operator
 # TODO: add other negative operators
@@ -356,4 +373,4 @@ phi14 = Operator("Resolve Dry Dry Dennyville", lambda s: True, lambda s: s.resol
 TASKS = [task0, task1, task2, task3, task4, task5, task6, task7,\
      task8, task9, task10, task11, task12, task13] 
 OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7,\
-    phi8, phi9, phi10, phi11, phi12, phi13, phi14]
+    phi8, phi9, phi10, phi11, phi12, phi13, phi14, phi15, phi16, phi17, phi18, phi19]
