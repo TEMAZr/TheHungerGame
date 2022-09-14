@@ -140,7 +140,7 @@ def render_state(s):
     # the_color_array [3][5] = "farm.jpg"
     # the_string_array[2][5] = "Rural"
 
-    caption= str(s.crisisMSG) + '\n' + str(s.operMSG) + str(s)
+    caption= str(s.crisisMSG) + '\n' + str(s.operMSG) + '\n\n' + str(s.goal_message()) + str(s)
     print(caption)
     the_state_array = STATE_ARRAY(color_array=the_color_array,
                                   string_array=the_string_array,
