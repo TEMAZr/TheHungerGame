@@ -101,9 +101,10 @@ class State:
         This city is in a crisis: hunger rates have spiked to a new high. You, as the god controlling this city, 
         must help the citizens get hunger rates under control. 
         You have various operators at your disposal, all of which cost or give you money. 
-        Help Dennyville lower its hunger rate under 35% as fast as possible! Good Luck!'''
+        Help Dennyville lower its hunger rate under 35% as fast as possible! 
+        As an extra challenge, random crises will occur, especially if the hunger rate is high... Good Luck!'''
         self.crisis = None
-        self.crisisMSG = "No Crisis at the Moment!"
+        self.crisisMSG = ""
         if old is not None:
             self.p = old.p
             self.wp = old.wp
@@ -162,6 +163,7 @@ class State:
         new.ch *= 1/self.crisis.dch
         new.m -= self.crisis.fix_cost
         new.crisis.clear_turns_active()
+        new.crisisMSG = "No crisis at the moment!\n"
         new.crisis = None
         new.calc_total_distribution()
         new.calc_total_waste()
