@@ -73,6 +73,12 @@ def render_state(s):
       else:
         the_color_array[int(i/11)][i%11] = f"mapimagesv2\mapslicev2_{i+1:02}.jpg"
 
+    if s.crisis is not None:
+      if os.name == "posix":
+        the_color_array[0][10] = f"mapimagesv2/crisis_active_02.jpg"
+      else:
+        the_color_array[0][10] = f"mapimagesv2\crisis_active_02.jpg"
+
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red
     # the_color_array [3][3] = red
