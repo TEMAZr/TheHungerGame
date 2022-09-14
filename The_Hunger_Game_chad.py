@@ -93,15 +93,6 @@ class State:
         self.w = 0
         self.calc_total_waste()
         self.h = 0
-
-        global CRISES
-        if random.randint(0, 10) == 0:
-            # c = random.choice(CRISES)
-            c = CRISES[0]
-            c.activate()
-            print(str(c.msg))
-        self.apply_crises()
-
         self.calc_hunger()
     
     def calc_total_distribution(self):
@@ -136,17 +127,24 @@ class State:
 
     def resolve_crisis(self, crisis):
         global CRISES
-        self.p *= 1/crisis.dp
-        self.wp *= 1/crisis.dwp
-        self.wd *= 1/crisis.dwd
-        self.bh *= 1/crisis.dbh
-        self.ch *= 1/crisis.dch
+        new = copy_state(self)
+        new.p *= 1/crisis.dp
+        new.wp *= 1/crisis.dwp
+        new.wd *= 1/crisis.dwd
+        new.bh *= 1/crisis.dbh
+        new.ch *= 1/crisis.dch
         for c in CRISES:
-            if c == crisis: c.resolve()
-        self.calc_hunger()
+            if c == crisis:
+                c.resolve()
+                c.turns_active = 0
+        new.calc_total_distribution()
+        new.calc_total_waste()
+        new.calc_hunger()
+        return new
 
     def move(self, t):
         # global ROOT
+        global CRISES
         if self.is_goal():
             # holdwindow.destroy()
             # quit()
@@ -156,6 +154,12 @@ class State:
             newwindow = tk.Toplevel(State.holdwindow)
             newwindow.geometry("500x500")
             newwindow.title("YEET")
+        if random.randint(0, 0) == 0: #0, 10
+            # c = random.choice(CRISES)
+            c = CRISES[0]
+            c.activate()
+            print(str(c.msg))
+        self.apply_crises()
         new = State(self)
         new.p += t.dp
         new.wp += t.dwp
@@ -306,10 +310,10 @@ msg = "As cool as rocket trucks are, you made the right choice. Maybe now Dennyv
 task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
-phi7 = Operator("Resolve Dry Dry Dennyville", lambda s: True, lambda s: s.resolve_crisis(crisis0))
+phi14 = Operator("Resolve Dry Dry Dennyville", lambda s: True, lambda s: s.resolve_crisis(crisis0))
 
 # TODO: add money operator
 # TODO: add other negative operators
 
 TASKS = [task0, task1, task2, task3, task4, task5, task6]
-OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi7]
+OPERATORS = [phi0, phi1, phi2, phi3, phi4, phi5, phi6, phi14]
