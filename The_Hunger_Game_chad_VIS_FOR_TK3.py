@@ -39,7 +39,7 @@ def render_state(s):
     # and we do it (the first time this method is called).
     global myFont
     if not myFont:
-        myFont = font.Font(family="Helvetica", size=10)
+        myFont = font.Font(family="Helvetica", size=8)
     #print("In render_state, state is "+str(s))
     # Create the default array of colors
 
@@ -59,8 +59,7 @@ def render_state(s):
 
 
     #side hunger bar
-    the_string_array[3][0] = "Hunger:"
-    the_string_array[4][0] = f"{s.h:.2f}%"
+    the_string_array[3][0] = f"Hunger:\n\n{s.h:.2f}%"
 
     # Adjust colors and strings to match the state.
     the_string_array[0][1] = f"{s.time + 2022}  "
@@ -78,6 +77,14 @@ def render_state(s):
         the_color_array[0][10] = f"mapimagesv2/crisis_active_02.jpg"
       else:
         the_color_array[0][10] = f"mapimagesv2\crisis_active_02.jpg"
+
+    if s.h >= 25:
+      if os.name == "posix":
+        the_color_array[6][0] = f"mapimagesv2/hunglvl1_67.jpg"
+        the_color_array[5][0] = f"mapimagesv2/hunglvl1_56.jpg"
+      else:
+        the_color_array[6][0] = f"mapimagesv2\hunglvl1_67.jpg"
+        the_color_array[5][0] = f"mapimagesv2\hunglvl1_56.jpg"
 
     # the_color_array [2][2] = red
     # the_color_array [2][3] = red
