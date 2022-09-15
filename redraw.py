@@ -80,11 +80,11 @@ class Redraw:
 
         canvas = tk.Canvas(newwindow,width=500, height=500, bg="red")
         canvas.pack()
-        canvas.create_image(250, 100, image=testimg)
+        canvas.create_image(250, 150, image=testimg)
 
-        canvas.create_text(250, 300, text="CRISIS ALERT", fill="white", font=("Helvetica",36,"bold"))
+        canvas.create_text(250, 50, text="CRISIS ALERT", fill="white", font=("Helvetica",36,"bold"))
 
-        canvas.create_text(250, 350, text=crisis.msg, fill="white",width=350, font=(24),justify='center')
+        canvas.create_text(250, 360, text=crisis.msg, fill="white",width=350, font=(24),justify='center')
 
     @staticmethod
     def imagewindow(window):

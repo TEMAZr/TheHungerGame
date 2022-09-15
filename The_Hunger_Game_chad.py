@@ -322,7 +322,7 @@ GOAL_MESSAGE_FUNCTION = lambda s: s.goal_message()
 # (self, name, msg, dp, dwp, dwd, dbh, dch, cost, max_times)
 
 name = "$165: Give silos to farms in need."
-msg = '''Some small-scale farms do not have access to modern storage equipment, or it is simply too expensive in the short-term. \nChanges so simple as supplying them with silos can cut their post-harvest losses from 40% to 2%! Thanks to your contribution, \nless food in Dennyville will go to waste.'''
+msg = '''Some small-scale farms do not have access to modern storage equipment, \nor it is simply too expensive in the short-term. \nChanges so simple as supplying them with silos can cut their \npost-harvest losses from 40% to 2%! Thanks to your contribution, \nless food in Dennyville will go to waste.'''
 task0 = Task(name, msg, 0, -3, 0, 0, 0, 165, 3, 1)
 phi0 = Operator(task0.name, lambda s: s.can_move(task0), lambda s: s.move(task0))
 
@@ -337,12 +337,12 @@ task2 = Task(name, msg, 0, 0, 0, -5, 15, 50, 1, 1)
 phi2 = Operator(task2.name, lambda s: s.can_move(task2), lambda s: s.move(task2))
 
 name = "$1000: Provide Dennyville residents with stimulus checks."
-msg = '''Its effect on better-off individuals is limited, but the stimulus check prompted a significant increase in spending among lower-income residents, \nwho are now able to put more money toward food. Dennyville thanks you for the boost, although some residents still have an issue with “free money.”'''
+msg = '''Its effect on better-off individuals is limited, but the stimulus check prompted a significant\n increase in spending among lower-income residents, \nwho are now able to put more money toward food. \nDennyville thanks you for the boost, although some residents still have an issue with “free money.”'''
 task3 = Task(name, msg, 0, 0, 0, 7, 0, 1000, 1, 0)
 phi3 = Operator(task3.name, lambda s: s.can_move(task3), lambda s: s.move(task3))
 
 name = "$100: Provide low-income students with free school lunch."
-msg = '''School lunch has a surprisingly large impact on hunger, with a 14% reduction in food\n insufficiency in United States households with one or more children receiving free or reduced-price school lunch. \nDennyville’s families are very happy with your choice.'''
+msg = '''School lunch has a surprisingly large impact on hunger, with a 14% reduction in food\n insufficiency in United States households with one or more \nchildren receiving free or reduced-price school lunch. \nDennyville’s families are very happy with your choice.'''
 task4 = Task(name, msg, 0, 0, 0, 7, 0, 100, 1, 2)
 phi4 = Operator(task4.name, lambda s: s.can_move(task4), lambda s: s.move(task4))
 
@@ -362,7 +362,7 @@ task7 = Task(name, msg, 0, -5, 2, 10, 9, 70, 5, 2)
 phi7 = Operator(task7.name, lambda s: s.can_move(task7), lambda s: s.move(task7))
 
 name = "+$100: Raise taxes on the top 1%"
-msg = '''Down with the rich! \nIn order to help the starving population, you elect to add extra taxes on the top 1% of residents, income-wise. \nThis may make them buy a little less food, but you have more funds to use now!'''
+msg = '''Down with the rich! \nIn order to help the starving population, \nyou elect to add extra taxes on the top 1% of residents, income-wise. \nThis may make them buy a little less food, but you have more funds to use now!'''
 task8 = Task(name, msg, 0, 0, 0, 2, 0, -100, 2, 1)
 phi8 = Operator(task8.name, lambda s: s.can_move(task8), lambda s: s.move(task8))
 
