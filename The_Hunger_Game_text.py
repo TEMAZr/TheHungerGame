@@ -21,7 +21,7 @@ class State:
         self.m = 1000 # amount of money available - change later
         self.time = 0 # time passed
         self.rocket_truck = False
-        self.operMSG = '''Welocome to the Hunger Game! You find yourself in the town of Dennyville.
+        self.operMSG = '''Welcome to the Hunger Game! You find yourself in the town of Dennyville.
         This city is in a crisis: hunger rates have spiked to a new high. You, as the god controlling this city, 
         must help the citizens get hunger rates under control. 
         You have various operators at your disposal, all of which cost or give you money. 
