@@ -1,6 +1,7 @@
 import tkinter as tk
 import Tk_SOLUZION_Client3 as tks3
 from time import sleep
+from PIL import ImageTk, Image
 
 class Redraw:
     holdwindow = None
@@ -36,7 +37,7 @@ class Redraw:
         newcanvas.pack()
     
     @staticmethod
-    def soloalert(window, text):
+    def soloalert(window, text, timeout=None):
         # useful https://stackoverflow.com/questions/15306222/automatically-close-window-after-a-certain-time
         # this one too https://stackoverflow.com/questions/14336472/how-to-create-new-tkinter-window-after-mainloop
         print("Attempting solo alert")
@@ -46,6 +47,39 @@ class Redraw:
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
         newcanvas.create_text(250, 250, text=text, font=("Helvetica",48,"bold"))
         newcanvas.pack()
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
+    
+    @staticmethod
+    def terminatemessage(window, text):
+        # useful https://stackoverflow.com/questions/15306222/automatically-close-window-after-a-certain-time
+        # this one too https://stackoverflow.com/questions/14336472/how-to-create-new-tkinter-window-after-mainloop
+        print("Attempting termination message")
+        newwindow = tk.Toplevel(window)
+        newwindow.geometry("500x500")
+        newwindow.title("Alert!")
+        newcanvas = tk.Canvas(newwindow, width=500, height=500)
+        newcanvas.create_text(250, 250, text=text, font=("Helvetica",12), width=300)
+        newcanvas.pack()
+
+    @staticmethod
+    def crisisalert(window, crisis):
+        # TODO: Fix whatever the heck is going on, it's not displaying correctly
+        print("Attempting crisis alert")
+
+        newwindow = tk.Toplevel(window)
+        newwindow.geometry("500x500")
+        newwindow.title("Crisis Alert!")
+
+        image = Image.open('alert.png')
+        image = image.resize((100,100), Image.Resampling.LANCZOS)
+        testimg = ImageTk.PhotoImage(image)
+
+        canvas = tk.Canvas(newwindow,width=500, height=500, bg="red")
+        canvas.pack()
+        canvas.create_image(250, 250, image=testimg)
+
+        canvas.create_text(250, 350, text=crisis.msg, fill="white",width=350)
 
     @staticmethod
     def imagewindow(window):

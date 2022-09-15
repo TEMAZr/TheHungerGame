@@ -9,6 +9,7 @@ from tkinter import font
 import os
 # from The_Hunger_Game_text import *
 import redraw
+from The_Hunger_Game_chad import State
 
 myFont=None
 
@@ -147,6 +148,10 @@ def render_state(s):
                                   text_font=myFont,
                                   caption=caption)
     #print("the_state_array is: "+str(the_state_array))
+    
+    # if s.crisisMSG is not "":
+    #   print("\033[31;1;4mA crisis is happening\033[0m")
+    #   redraw.Redraw.crisisalert(State.holdwindow, s.crisis)
     the_state_array.show()
     # redraw.Redraw.drawcanvas()
     # redraw.Redraw.alert("ope")

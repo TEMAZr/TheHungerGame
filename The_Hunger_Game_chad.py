@@ -172,16 +172,8 @@ class State:
 
     def move(self, t):
         # global ROOT
+        # print("\033[31;1;4mExecuting move()\033[0m")
         global drought, blowout, exodus, hornets, sinkhole, war_lite
-        if self.is_goal():
-            # holdwindow.destroy()
-            # quit()
-            # print("killing process")
-            sys.exit(1)
-            # self.close_window()
-            # newwindow = tk.Toplevel(State.holdwindow)
-            # newwindow.geometry("500x500")
-            # newwindow.title("YEET")
         new = State(self)
         new.p += t.dp
         new.wp += t.dwp
@@ -214,16 +206,33 @@ class State:
             new.crisis = exodus
             new.crisisMSG = new.crisis.msg
         new.apply_crisis()
+        # print("\033[31;1;4mmove() finished\033[0m")
+        if new.is_goal()[0]:
+            # print("\033[35;1;4mAttempting to close window\033[0m")
+            # holdwindow.destroy()
+            # quit()
+            # print("killing process")
+            # sys.exit(1)
+            # self.close_window()
+            # newwindow = tk.Toplevel(State.holdwindow)
+            # newwindow.geometry("500x500")
+            # newwindow.title("YEET")
+            # redraw.Redraw.soloalert(State.holdwindow,"get rekt", 2000)
+            State.holdwindow.after(1000, lambda:redraw.Redraw.terminatemessage(State.holdwindow,new.is_goal()[1]))
+        # if new.crisis is not None:
+        #     redraw.Redraw.crisisalert(State.holdwindow, new.crisis)
         return new
 
     def can_move(self, t):
         global task5, task6
+        # print("\033[31;1;4mExecuting can_move()\033[0m")
         if task5.times_used == 0 and t.name == task6.name: return False
         if not t.can_do_again(): return False
         if self.wp + self.wd + t.dwp + t.dwd > self.p + t.dp: return False
         if self.bh + t.dbh > 100 or self.bh + t.dbh < 0: return False
         if self.ch + t.dch > 100 or self.ch + t.dch < 0: return False
         if t.cost > self.m: return False
+        # print("\033[31;1;4mcan_move returning true\033[0m")
         return True
 
     # \u001b[38;5;##m
@@ -238,14 +247,16 @@ class State:
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
         # figure out how to end game if there are no available tasks
+        # print("\033[35;1;4mExecuting is_goal()\033[0m")
         if self.h <= 35 or self.h >= 90:
             print(self.goal_message())
-            return True
+            return [True, self.goal_message()]
         elif self.m <= 50:
             if not task8.can_do_again() and not task10.can_do_again():
                 print(self.goal_message())
-                return True
-        return False
+                return [True, self.goal_message()]
+        # print("\033[35;1;4mis_goal() returning false\033[0m")
+        return [False, self.goal_message()]
 
 
     def __eq__(self, s2):
@@ -256,10 +267,9 @@ class State:
         return (str(self)).__hash__()
 
     def goal_message(self):
-        if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue. Press Quit"
-        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to kill god 
-        because they hate you so much (it's impressive how they did it while so hungry). Press Quit'''
-        if self.h <= 35: return "Dennyville is ever grateful for your contributions! bye lul. Press Quit"
+        if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue.\n\nPress Quit"
+        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry).\n\nPress Quit'''
+        if self.h <= 35: return "Dennyville is ever grateful for your contributions! bye lul.\n\nPress Quit"
         return "You haven't won yet!"
     
     @staticmethod
