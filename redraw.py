@@ -3,6 +3,8 @@ import Tk_SOLUZION_Client3 as tks3
 from time import sleep
 from PIL import ImageTk, Image
 
+l = []
+
 class Redraw:
     holdwindow = None
     w = 0
@@ -33,7 +35,7 @@ class Redraw:
         newwindow.geometry("500x500")
         newwindow.title("Alert!")
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
-        newcanvas.create_text(250, 250, text=text)
+        newcanvas.create_text(250, 250, text=text, justify="center")
         newcanvas.pack()
     
     @staticmethod
@@ -45,7 +47,7 @@ class Redraw:
         newwindow.geometry("500x500")
         newwindow.title("Alert!")
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
-        newcanvas.create_text(250, 250, text=text, font=("Helvetica",48,"bold"))
+        newcanvas.create_text(250, 250, text=text, font=("Helvetica",48,"bold"),justify="center")
         newcanvas.pack()
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
@@ -56,10 +58,10 @@ class Redraw:
         # this one too https://stackoverflow.com/questions/14336472/how-to-create-new-tkinter-window-after-mainloop
         print("Attempting termination message")
         newwindow = tk.Toplevel(window)
-        newwindow.geometry("500x500")
+        newwindow.geometry("500x500+500+0")
         newwindow.title("Alert!")
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
-        newcanvas.create_text(250, 250, text=text, font=("Helvetica",12), width=300)
+        newcanvas.create_text(250, 250, text=text, font=("Helvetica",12), width=300, justify='center')
         newcanvas.pack()
 
     @staticmethod
@@ -72,14 +74,17 @@ class Redraw:
         newwindow.title("Crisis Alert!")
 
         image = Image.open('alert.png')
-        image = image.resize((100,100), Image.Resampling.LANCZOS)
+        image = image.resize((150,150), Image.Resampling.LANCZOS)
         testimg = ImageTk.PhotoImage(image)
+        l.append(testimg)
 
         canvas = tk.Canvas(newwindow,width=500, height=500, bg="red")
         canvas.pack()
-        canvas.create_image(250, 250, image=testimg)
+        canvas.create_image(250, 100, image=testimg)
 
-        canvas.create_text(250, 350, text=crisis.msg, fill="white",width=350)
+        canvas.create_text(250, 300, text="CRISIS ALERT", fill="white", font=("Helvetica",36,"bold"))
+
+        canvas.create_text(250, 350, text=crisis.msg, fill="white",width=350, font=(24),justify='center')
 
     @staticmethod
     def imagewindow(window):

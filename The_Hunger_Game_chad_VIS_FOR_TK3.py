@@ -149,9 +149,10 @@ def render_state(s):
                                   caption=caption)
     #print("the_state_array is: "+str(the_state_array))
     
-    # if s.crisisMSG is not "":
-    #   print("\033[31;1;4mA crisis is happening\033[0m")
-    #   redraw.Redraw.crisisalert(State.holdwindow, s.crisis)
+    if s.crisis is not None and s.crisis.turns_active == 1:
+      print("\033[31;1;4mA crisis is happening\033[0m")
+      # print(type(State.holdwindow))
+      redraw.Redraw.crisisalert(State.holdwindow, s.crisis)
     the_state_array.show()
     # redraw.Redraw.drawcanvas()
     # redraw.Redraw.alert("ope")
