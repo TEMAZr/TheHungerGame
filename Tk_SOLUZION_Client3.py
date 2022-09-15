@@ -41,7 +41,7 @@ def compute_applicability_vector():
 
 def show_instructions():
   tkprint('''\nINSTRUCTIONS:\n
-The current state of your problem session represents where you
+The current state of your problem session represents where youzs
 are in the problem-solving process.  You can try to progress
 forward by applying an operator to change the state.
 To do this, type the number of an applicable operator.
