@@ -242,7 +242,7 @@ class State:
             print(self.goal_message())
             return True
         elif self.m <= 50:
-            if not task8.can_do_again and not task10.can_do_again:
+            if not task8.can_do_again() and not task10.can_do_again():
                 print(self.goal_message())
                 return True
         return False
@@ -256,7 +256,7 @@ class State:
         return (str(self)).__hash__()
 
     def goal_message(self):
-        if self.m <= 50 and not task8.can_do_again and not task10.can_do_again: return "lol u broke, it's a skill issue. Press Quit"
+        if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue. Press Quit"
         if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to kill god 
         because they hate you so much (it's impressive how they did it while so hungry). Press Quit'''
         if self.h <= 35: return "Dennyville is ever grateful for your contributions! bye lul. Press Quit"
