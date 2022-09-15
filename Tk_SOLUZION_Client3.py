@@ -314,7 +314,7 @@ if __name__ == '__main__':
     print("Trying to initialize the visualization")
     PROBLEM.render_state = VIS.render_state
     initialize_tk()
-    # PROBLEM.State.give_window(ROOT) ### inserted
+    PROBLEM.State.give_window(ROOT) ### inserted
     # VIS.give_canvas(THE_CANVAS, ROOT) ### inserted
     VIS.initialize_vis(STATE_WINDOW,State_array, CURRENT_STATE)
     LOWER_GUI_PART = lower_gui_part(STATE_WINDOW)

@@ -178,10 +178,10 @@ class State:
             # quit()
             # print("killing process")
             # sys.exit(1)
-            # self.close_window()
-            newwindow = tk.Toplevel(State.holdwindow)
-            newwindow.geometry("500x500")
-            newwindow.title("YEET")
+            self.close_window()
+            # newwindow = tk.Toplevel(State.holdwindow)
+            # newwindow.geometry("500x500")
+            # newwindow.title("YEET")
         new = State(self)
         new.p += t.dp
         new.wp += t.dwp
@@ -239,8 +239,8 @@ class State:
     def is_goal(self):
         # figure out how to end game if there are no available tasks
         if self.h <= 20 or self.h >= 90:
-                print(self.goal_message())
-                return True
+            print(self.goal_message())
+            return True
         elif self.m <= 200:
             if not task8.can_do_again and not task10.can_do_again:
                 print(self.goal_message())
