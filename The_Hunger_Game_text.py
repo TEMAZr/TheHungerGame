@@ -21,7 +21,7 @@ class State:
         self.m = 1000 # amount of money available - change later
         self.time = 0 # time passed
         self.rocket_truck = False
-        self.operMSG = '''Welocome to the Hunger Game! You find yourself in the town of Dennyville.
+        self.operMSG = '''Welcome to the Hunger Game! You find yourself in the town of Dennyville.
         This city is in a crisis: hunger rates have spiked to a new high. You, as the god controlling this city, 
         must help the citizens get hunger rates under control. 
         You have various operators at your disposal, all of which cost or give you money. 
@@ -127,9 +127,11 @@ class State:
         return (str(self)).__hash__()
 
     def goal_message(self):
-        if self.m <= 200: return "lol u broke, it's a skill issue"
-        if self.h >= 90: return "the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry)"
-        return "Dennyville is ever grateful for your contributions! bye lul"
+        if self.m <= 50 and not task8.can_do_again and not task10.can_do_again:: return "lol u broke, it's a skill issue. Press Quit"
+        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to kill god 
+        because they hate you so much (it's impressive how they did it while so hungry). Press Quit'''
+        if self.h <= 35: return "Dennyville is ever grateful for your contributions! bye lul. Press Quit"
+        return "You haven't won yet!"
 
 def copy_state(s):
     return State(old=s)
