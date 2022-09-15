@@ -253,9 +253,9 @@ class State:
         return (str(self)).__hash__()
 
     def goal_message(self):
-        if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue.\n\nPress Quit"
-        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to \nkill god because they hate you so much \n(it's impressive how they did it while so hungry).\n\nPress Quit'''
-        if self.h <= 35: return "Dennyville is ever grateful for your contributions! \nbye lul.\n\nPress Quit"
+        if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue."
+        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to \nkill god because they hate you so much \n(it's impressive how they did it while so hungry).'''
+        if self.h <= 35: return "Dennyville is ever grateful for your contributions! \nbye lul."
         return "You haven't won yet!"
     
     @staticmethod
@@ -332,7 +332,7 @@ task1 = Task(name, msg, 0, 0, -7, 0, 0, 1500, 1, 10)
 phi1 = Operator(task1.name, lambda s: s.can_move(task1), lambda s: s.move(task1))
 
 name = "$50: Ad campaign against household food waste."
-msg = '''You’ve pestered all of Dennyville with your relentless ads… but maybe that’s a good thing.\n A lot of people don’t know that households generate 31% of all food waste in industrialized countries. \nBy encouraging Dennyville residents to build habits such as planning meals, eating leftovers, using the freezer to prolong shelf life, \nand donating excess food, the area has seen a decrease in food waste.'''
+msg = '''You’ve pestered all of Dennyville with your relentless ads… but maybe that’s a good thing.\n A lot of people don’t know that households generate 31% of all food waste in industrialized countries. \nBy encouraging Dennyville residents to build habits such as planning meals, \neating leftovers,using the freezer to prolong shelf life, and donating excess food, \nthe area has seen a decrease in food waste.'''
 task2 = Task(name, msg, 0, 0, 0, -5, 15, 50, 1, 1)
 phi2 = Operator(task2.name, lambda s: s.can_move(task2), lambda s: s.move(task2))
 
@@ -357,7 +357,7 @@ task6 = Task(name, msg, 0, 0, -45, 0, 0, 250, 1, 7)
 phi6 = Operator(task6.name, lambda s: s.can_move(task6), lambda s: s.move(task6))
 
 name = "$70: Donate Usable Food Waste"
-msg = '''You have observed that large amounts of usable food are being wasted by corporate policies and overspending by households. \nYou encourage food donations from corporations and households which helps people in need and reduces the amount of food going to landfills.'''
+msg = '''You have observed that large amounts of usable food are being wasted by corporate policies and \noverspending by households. You encourage food donations from corporations \nand households which helps people in need and reduces the amount of food going to landfills.'''
 task7 = Task(name, msg, 0, -5, 2, 10, 9, 70, 5, 2)
 phi7 = Operator(task7.name, lambda s: s.can_move(task7), lambda s: s.move(task7))
 
