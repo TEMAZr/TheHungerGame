@@ -182,7 +182,7 @@ class State:
         new.ch += t.dch
         new.m -= t.cost
         new.time += t.time
-        new.operMSG = t.msg
+        new.operMSG = ""
         new.d = new.calc_total_distribution()
         new.w = new.calc_total_waste()
         new.h = new.calc_hunger()
@@ -225,6 +225,7 @@ class State:
         # if new.crisis is not None:
         #     redraw.Redraw.crisisalert(State.holdwindow, new.crisis)
         State.last_news = str(t.msg)
+        redraw.Redraw.newsreport(State.holdwindow,State.last_news)
         return new
 
     def can_move(self, t):
@@ -243,7 +244,7 @@ class State:
     # \u001b[0m
     def __str__(self):
         return f'\n=================\nMoney: {self.m:.2f}\n\
-===== Stats =====\nProduction: {self.p:.2f}\nDistribution: {self.d:.2f}\nTotal Waste: {self.w:.2f}\nHunger Rate: {self.h:.2f}'
+===== Stats =====\n' + f"{f'Production: {self.p:.2f}  |  Distribution: {self.d:.2f}':^45}" + "\n" + f"{f'Total Waste: {self.w:.2f}  |  Hunger Rate: {self.h:.2f}':^45}"
 
     def describe_state(self):
         return str(self)

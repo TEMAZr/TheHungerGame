@@ -13,8 +13,8 @@ from The_Hunger_Game_chad import State
 
 myFont=None
 
-WIDTH = int(2732*0.2)-7
-HEIGHT = int(2048*0.2)-1
+WIDTH = int(2732*0.3)-7
+HEIGHT = int(2048*0.3)-1
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
@@ -141,7 +141,7 @@ def render_state(s):
     # the_color_array [3][5] = "farm.jpg"
     # the_string_array[2][5] = "Rural"
 
-    caption= str(s.operMSG) + '\n\n' + str(s.goal_message()) + str(s)
+    caption= str(s.operMSG) + str(s)
     print(caption)
     the_state_array = STATE_ARRAY(color_array=the_color_array,
                                   string_array=the_string_array,

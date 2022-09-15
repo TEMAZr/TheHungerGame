@@ -94,3 +94,43 @@ class Redraw:
     @staticmethod
     def imagewindow(window):
         pass
+
+    @staticmethod
+    def newsreport(window, text, timeout=None):
+        newwindow = tk.Toplevel(window)
+        newwindow.geometry("600x600+500+0")
+        newwindow.title("Breaking News!")
+
+        image = Image.open('newsbg.png')
+        image = image.resize((600,600), Image.Resampling.LANCZOS)
+        testimg = ImageTk.PhotoImage(image)
+        l.append(testimg)
+
+        image2 = Image.open('money.jpg')
+        image2 = image2.resize((180,180), Image.Resampling.LANCZOS)
+        image2 = image2.convert("L")
+        moneyimg = ImageTk.PhotoImage(image2)
+        l.append(moneyimg)
+
+        image3 = Image.open('holyburger.png')
+        image3 = image3.resize((135,180), Image.Resampling.LANCZOS)
+        image3 = image3.convert("L")
+        burgerimg = ImageTk.PhotoImage(image3)
+        l.append(burgerimg)
+
+        canvas = tk.Canvas(newwindow,width=600, height=600, bg="white")
+        canvas.pack()
+        canvas.create_image(300, 300, image=testimg)
+        canvas.create_image(100, 500, image=moneyimg)
+        canvas.create_image(525, 275, image=burgerimg)
+
+        canvas.create_text(225, 275, text=text, font=("century schoolbook", 14), width=400)
+
+        canvas.create_text(330, 440, text="This information has been researched for the development of this game; data, statistics, and facts mentioned come from government reports or independent studies.", font=("century schoolbook", 10), width=230)
+
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
+
+if __name__ == "__main__":
+    #test stuff here
+    pass
