@@ -13,9 +13,10 @@ import redraw
 
 class CrisisEvent:
 
-    def __init__(self, name, msg, dp, dwp, dwd, dbh, dch, fix_cost):
+    def __init__(self, name, msg, res_msg, dp, dwp, dwd, dbh, dch, fix_cost):
         self.name = name
         self.msg = msg
+        self.res_msg = res_msg
         self.dp = dp
         self.dwp = dwp
         self.dwd = dwd
@@ -43,34 +44,40 @@ class CrisisEvent:
 # Crises - note: numerical parameters are multipliers
 
 name = "Dry Dry Dennyville"
-msg = '''Dennyville is experiencing a severe drought, which has become all too common in recent years. \nFarms are struggling to upkeep their crops, which is making food harder to come by. \nA lot of people are praying to you right now. \nDo the right thing!
+msg = '''Dennyville is experiencing a severe drought, which has become all too common in recent years. Farms are struggling to upkeep their crops, which is making food harder to come by. \nA lot of people are praying to you right now. Do the right thing!
 '''
-drought = CrisisEvent(name, msg, 0.7, 1, 1, 1.20, 1, 300)
+res_msg = ""
+drought = CrisisEvent(name, msg, res_msg, 0.7, 1, 1, 1.20, 1, 300)
 
 name = "Billionaire Blowout!"
-msg = '''Dennyville aristocrats are mad they have to pay more in taxes. \nOne billionaire and CEO of [TBD] has threatened to withdraw their \ncompany from Dennyville if the taxes aren’t lowered soon.
+msg = '''Dennyville aristocrats are mad they have to pay more in taxes. One billionaire and CEO of [TBD] has threatened to withdraw their company from Dennyville if the taxes aren’t lowered soon.
 '''
-blowout = CrisisEvent(name, msg, 1, 1, 1, 1, 1, 200) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
+res_msg = "Well... raising taxes was worth a try, though you did have to influence the Dennyville government to lower them again. By “influence,” I mean bribe. You bribed government officials. Good work."
+blowout = CrisisEvent(name, msg, res_msg, 1, 1, 1, 1, 1, 200) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
 
 name = "Enterprise Exodus"
-msg = '''After many long years of business, [TBD] has finally packed up its bags and left Dennyville, \nleaving many unemployed in its wake. \nSome families are struggling to put food on the table as a result.
+msg = '''After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result.
 '''
-exodus = CrisisEvent(name, msg, 1, 1, 1, 0.85, 1, 300)
+res_msg = "You enticed other companies with fiscal incentives to relocate to or expand in Dennyville, which has helped to fill [TBD]’s void. You also made sure the former [TBD] employees wouldn’t immediately fall into poverty, providing them with temporary unemployment benefits. The government will have to keep a close eye on the situation, and this is by no means a perfect solution, but for now Dennyville’s doing fine considering its great loss."
+exodus = CrisisEvent(name, msg, res_msg, 1, 1, 1, 0.85, 1, 300)
 
 name = "Homicidal Hornets"
-msg = '''You thought the 2020 plot-writers forgot about murder hornets, didn’t you?\nWelcome to Season 2! Murder hornets have invaded Dennyville \nand are steadily taking out the native honeybee population, \nreducing fertilization of crops.
+msg = '''You thought the 2020 plot-writers forgot about murder hornets, didn’t you? Welcome to Season 2! Murder hornets have invaded Dennyville and are steadily taking out the native honeybee population, reducing fertilization of crops.
 '''
-hornets = CrisisEvent(name, msg, 0.8, 1, 1, 1, 1, 200)
+res_msg = "Lots of murder hornets got into Dennyville, so you had to pour lots of money into a large-scale eradication effort. But, good news - by luring workers with sugar to follow them to their nests and killing queens during their reproductive stage, the Dennyville DoA and many paid volunteers took them all out! Or… *shudder* at least it seems so. The honeybee population is recovering, anyway."
+hornets = CrisisEvent(name, msg, res_msg, 0.8, 1, 1, 1, 1, 200)
 
-name = "Sinkhole!"
+name = "Surprise Sinkhole"
 msg = '''A sinkhole cropped up straight in the middle of Interstate 420, \nmaking the route unnavigable and cargo delivery to Dennyville more difficult. \nThis greatly affects the distribution of perishable goods like food.
 '''
-sinkhole = CrisisEvent(name, msg, 1, 1.2, 1, 1, 1, 100)
+res_msg = "You brought professionals and construction workers to the scene of the sinkhole to get the road back in order. This was costly but 100% worth it, as people and goods can travel easily and freely to and from Dennyville again."
+sinkhole = CrisisEvent(name, msg, res_msg, 1, 1.2, 1, 1, 1, 100)
 
 name = "War Lite"
-msg = '''The citizens of Dennyville are outraged that so many of them are hungry and nobody is doing anything about it. \nThey’ve taken to the streets of the city center and, in addition to refusing to purchase food, are literally burning everything down. \nMany farmers are also on strike and refusing to produce food. \nSomething tells me you should intervene...
+msg = '''The citizens of Dennyville are outraged that so many of them are hungry and nobody is doing anything about it. They’ve taken to the streets of the city center and, in addition to refusing to purchase food, are literally burning everything down. Many farmers are also on strike and refusing to produce food. Something tells me you should intervene...
 '''
-war_lite = CrisisEvent(name, msg, 0.8, 1, 1, 0.7, 1, 500)
+res_msg = "You had to round up a whole lot of firefighters, a whole lot of police, and a whole lot of everything in general to put an end to this one outburst. You even had to call in Big Chungus and pay him handsomely for his damage control. But Dennyville’s citizens are still ravenous, and there’s nothing to guarantee its citizens won’t take to the streets again. You’d best start feeding them. That’s the point of this game anyw- oh shoot, I just broke the fourth wall."
+war_lite = CrisisEvent(name, msg, res_msg, 0.8, 1, 1, 0.7, 1, 500)
 
 class State:
 
@@ -89,6 +96,7 @@ class State:
         This city is in a crisis: hunger rates have spiked to a new high. \nYou, as the god controlling this city, must help the citizens get hunger rates under control. \nYou have various operators at your disposal, all of which cost or give you money. \nHelp Dennyville lower its hunger rate under 35% as fast as possible! \nAs an extra challenge, random crises will occur, especially if the hunger rate is high... Good Luck!'''
         self.crisis = None
         self.crisisMSG = ""
+        self.turns_without_crisis = 0
         if old is not None:
             self.p = old.p
             self.wp = old.wp
@@ -101,6 +109,7 @@ class State:
             self.operMSG = old.operMSG
             self.crisis = old.crisis
             self.crisisMSG = old.crisisMSG
+            self.turns_without_crisis = old.turns_without_crisis
         self.d = 0
         self.calc_total_distribution()
         self.w = 0
@@ -135,10 +144,12 @@ class State:
             self.wd *= self.crisis.dwd
             self.bh *= self.crisis.dbh
             self.ch *= self.crisis.dch
-            self.crisis.turns_active += 1
+            self.crisis.add_turn_active()
             self.calc_total_distribution()
             self.calc_total_waste()
             self.calc_hunger()
+            self.turns_without_crisis = 0
+        elif self.crisis is None: self.turns_without_crisis += 1
 
     def resolve_crisis(self):
         new = copy_state(self)
@@ -150,6 +161,7 @@ class State:
         new.m -= self.crisis.fix_cost
         new.crisis.clear_turns_active()
         new.crisisMSG = "No crisis at the moment!\n"
+        new.operMSG = new.crisis.res_msg
         new.crisis = None
         new.calc_total_distribution()
         new.calc_total_waste()
@@ -185,9 +197,11 @@ class State:
                 if random.randint(0, 2) == 0:
                     new.crisis = blowout
                     new.crisisMSG = new.crisis.msg
-            if random.randint(0, 10) == 0:
-                new.crisis = random.choice([drought, sinkhole, hornets])
-                new.crisisMSG = new.crisis.msg
+            if self.turns_without_crisis >= 3:
+                if random.randint(0, 10) == 0:
+                    list = [drought, sinkhole, hornets]
+                    new.crisis = random.choice(list)
+                    new.crisisMSG = new.crisis.msg
         if new.crisis == blowout and new.crisis.turns_active >= 3:
             new.crisis = exodus
             new.crisisMSG = new.crisis.msg
