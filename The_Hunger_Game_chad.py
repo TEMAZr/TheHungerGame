@@ -205,6 +205,7 @@ class State:
             # newwindow.title("YEET")
             # redraw.Redraw.soloalert(State.holdwindow,"get rekt", 2000)
             State.holdwindow.after(1000, lambda:redraw.Redraw.terminatemessage(State.holdwindow,new.is_goal()[1]))
+            State.holdwindow.after(10000, State.holdwindow.destroy)
         # if new.crisis is not None:
         #     redraw.Redraw.crisisalert(State.holdwindow, new.crisis)
         return new

@@ -53,7 +53,7 @@ class Redraw:
             newwindow.after(timeout, newwindow.destroy)
     
     @staticmethod
-    def terminatemessage(window, text):
+    def terminatemessage(window, text, timeout=None):
         # useful https://stackoverflow.com/questions/15306222/automatically-close-window-after-a-certain-time
         # this one too https://stackoverflow.com/questions/14336472/how-to-create-new-tkinter-window-after-mainloop
         print("Attempting termination message")
@@ -63,9 +63,11 @@ class Redraw:
         newcanvas = tk.Canvas(newwindow, width=500, height=500)
         newcanvas.create_text(250, 250, text=text, font=("Helvetica",12), width=300, justify='center')
         newcanvas.pack()
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
 
     @staticmethod
-    def crisisalert(window, crisis):
+    def crisisalert(window, crisis, timeout=None):
         # TODO: Fix whatever the heck is going on, it's not displaying correctly
         print("Attempting crisis alert")
 
@@ -85,6 +87,9 @@ class Redraw:
         canvas.create_text(250, 50, text="CRISIS ALERT", fill="white", font=("Helvetica",36,"bold"))
 
         canvas.create_text(250, 360, text=crisis.msg, fill="white",width=350, font=(24),justify='center')
+
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
 
     @staticmethod
     def imagewindow(window):
