@@ -107,6 +107,8 @@ class State:
         self.calc_total_waste()
         self.h = 0
         self.calc_hunger()
+        self.d = min(100,max(0, self.d))
+        self.h = min(100,max(0, self.h))
     
     def calc_total_distribution(self):
         self.d = self.p - self.wp - self.wd # food that gets off farms and to corps/retailers
