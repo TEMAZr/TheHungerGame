@@ -238,7 +238,7 @@ class State:
     '''SET THE END TIME lATER!! DO NOT FORGET THIS YOU IDIOT!!!!!'''
     def is_goal(self):
         # figure out how to end game if there are no available tasks
-        if self.h <= 20 or self.h >= 90:
+        if self.h <= 35 or self.h >= 90:
             print(self.goal_message())
             return True
         elif self.m <= 50:
