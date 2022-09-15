@@ -46,14 +46,14 @@ class CrisisEvent:
 name = "Dry Dry Dennyville"
 msg = '''Dennyville is experiencing a severe drought, which has become all too common in recent years. Farms are struggling to upkeep their crops, which is making food harder to come by. A lot of people are praying to you right now. Do the right thing!
 '''
-res_msg = ""
-drought = CrisisEvent(name, msg, res_msg, 0.7, 1, 1, 1.20, 1, 300)
+res_msg = "For the short-term, you mandated that individuals conserve water, and reserved water for struggling farms. For the long-term, you expanded water storage in the region. Dennyville will be uncomfortable until conditions get less dry, but at least it's not a Grade A emergency anymore."
+drought = CrisisEvent(name, msg, res_msg, 0.8, 1, 1, 1.10, 1, 300)
 
 name = "Billionaire Blowout!"
 msg = '''Dennyville aristocrats are mad they have to pay more in taxes. One billionaire and CEO of [TBD] has threatened to withdraw their company from Dennyville if the taxes aren’t lowered soon.
 '''
 res_msg = "Well... raising taxes was worth a try, though you did have to influence the Dennyville government to lower them again. By “influence,” I mean bribe. You bribed government officials. Good work."
-blowout = CrisisEvent(name, msg, res_msg, 1, 1, 1, 1, 1, 200) # note: it may have no effect now, but this will cause problems down the road if not resolved in 5 years
+blowout = CrisisEvent(name, msg, res_msg, 1, 1, 1, 1, 1, 200) # note: it may have no effect now, but this will cause problems down the road if not resolved
 
 name = "Enterprise Exodus"
 msg = '''After many long years of business, [TBD] has finally packed up its bags and left Dennyville, leaving many unemployed in its wake. Some families are struggling to put food on the table as a result.
@@ -82,7 +82,7 @@ war_lite = CrisisEvent(name, msg, res_msg, 0.8, 1, 1, 0.7, 1, 500)
 class State:
 
     holdwindow = None
-    last_task = None
+    last_news = None
 
     def __init__(self, old = None):
         self.p = 90 # production in a percentage of pop. that could be fed given no waste
@@ -160,6 +160,7 @@ class State:
         new.bh *= 1/self.crisis.dbh
         new.ch *= 1/self.crisis.dch
         new.m -= self.crisis.fix_cost
+        State.last_news = str(new.crisis.res_msg)
         new.crisis.clear_turns_active()
         new.crisisMSG = "No crisis at the moment!\n"
         new.operMSG = new.crisis.res_msg
@@ -223,7 +224,7 @@ class State:
             State.holdwindow.after(10000, State.holdwindow.destroy)
         # if new.crisis is not None:
         #     redraw.Redraw.crisisalert(State.holdwindow, new.crisis)
-        State.last_task = t
+        State.last_news = str(t.msg)
         return new
 
     def can_move(self, t):
