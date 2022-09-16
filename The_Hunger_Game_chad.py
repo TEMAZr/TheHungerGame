@@ -400,7 +400,7 @@ mitigate = Operator(task9.name, lambda s: s.can_move(task9), lambda s: s.move(ta
 
 name = "+$200: Raise funds for people in need"
 msg = '''People need food, but you don’t seem to have the means to help! You look to your beloved subjects for help. Thankfully, they agree that there is a need for action and raise some funds to help your cause. It seems Dennyville has got your back.'''
-task10 = Task(name, msg, 0, 0, 0, 4, 3, -200, 2, 4)
+task10 = Task(name, msg, 0, 0, 0, 0, 0, -200, 2, 4)
 raise_funds = Operator(task10.name, lambda s: s.can_move(task10), lambda s: s.move(task10))
 
 name = "$120: Creating more GMOs. They look strange..."
