@@ -136,7 +136,7 @@ class Redraw:
     def welcomewindow(window, timeout=None):
         newwindow = tk.Toplevel(window)
         newwindow.title("Welocome!")
-        newwindow.geometry("650x450")
+        newwindow.geometry(f"650x450+{int(newwindow.winfo_screenwidth()/2-325)}+100")
 
         canvas = tk.Canvas(newwindow, width=650, height=450, bg="white")
         canvas.pack()
