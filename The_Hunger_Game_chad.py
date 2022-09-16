@@ -173,6 +173,7 @@ class State:
     def move(self, t):
         # global ROOT
         # print("\033[31;1;4mExecuting move()\033[0m")
+        if t == task5: self.rocket_truck = True
         global drought, blowout, exodus, hornets, sinkhole, war_lite
         new = State(self)
         new.p += t.dp
@@ -253,7 +254,7 @@ class State:
     def is_goal(self):
         # figure out how to end game if there are no available tasks
         # print("\033[35;1;4mExecuting is_goal()\033[0m")
-        if self.h <= 35 or self.h >= 90:
+        if self.h <= 30 or self.h >= 90:
             print(self.goal_message())
             return [True, self.goal_message()]
         elif self.m <= 50:
@@ -274,7 +275,7 @@ class State:
     def goal_message(self):
         if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue."
         if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to \nkill god because they hate you so much \n(it's impressive how they did it while so hungry).'''
-        if self.h <= 35: return "Dennyville is ever grateful for your contributions! \nbye lul."
+        if self.h <= 30: return "Dennyville is ever grateful for your contributions! \nbye lul."
         return "You haven't won yet!"
     
     @staticmethod
@@ -410,15 +411,29 @@ msg = '''Human error? Why not use robots instead! You decide to mechanize major 
 task13 = Task(name, msg, 8, 0, 0, -12, 2, 300, 2, 4)
 mechanize = Operator(task13.name, lambda s: s.can_move(task13), lambda s: s.move(task13))
 
+name = "$100: Raise grocery tax by 5 percent"
+msg = "People don't love having to spend more on essentials like food. For every percent increase in grocery tax, there is a 0.7 percent decrease in overall food spending."
+task14 = Task(name, msg, 0, 0, 0, -3.5, 0, 100, 3, 0)
+grocery_tax = Operator(task14.name, lambda s: s.can_move(task14), lambda s: s.move(task14))
+
+name = "$300: Shoot Elon Musk into the sun"
+msg = "Wow... you really just did that. Sent Elon Musk into the sun to disintegrate in his own invention, the rocket truck. Dennyville's clan of Elon fanboys are in mourning."
+task15 = Task(name, msg, 0, 0, 0, 0, 0, 300, 1, 0)
+musk_sun = Operator(task15.name, lambda s: s.rocket_truck and s.m >= task15.cost, lambda s: s.move(task15))
+
 resolve_drought = Operator("$300: Resolve Dry Dry Dennyville", lambda s: s.crisis == drought and s.m >= drought.fix_cost, lambda s: s.resolve_crisis())
+
 resolve_hornets = Operator("$200: Resolve Homicidal Hornets", lambda s: s.crisis == hornets and s.m >= hornets.fix_cost, lambda s: s.resolve_crisis())
+
 resolve_sinkhole = Operator("$100: Resolve Sinkhole", lambda s: s.crisis == sinkhole and s.m >= sinkhole.fix_cost, lambda s: s.resolve_crisis())
 
 resolve_blowout = Operator("$200: Resolve Billionaire Blowout", lambda s: s.crisis == blowout and s.m >= blowout.fix_cost, lambda s: s.resolve_crisis())
+
 resolve_exodus = Operator("$300: Resolve Enterprise Exodus", lambda s: s.crisis == exodus and s.m >= exodus.fix_cost, lambda s: s.resolve_crisis())
+
 resolve_war_lite = Operator("$500: Resolve War Lite", lambda s: s.crisis == war_lite and s.m >= war_lite.fix_cost, lambda s: s.resolve_crisis())
 
 # TODO: add money operator
 # TODO: add other negative operators
 
-OPERATORS = [raise_funds, raise_taxes, ads, donate, lunch, mitigate, gmos, silos, ban_truck, mechanize, truck, wind_farm, stimulus, roads, resolve_drought, resolve_hornets, resolve_sinkhole, resolve_blowout, resolve_exodus, resolve_war_lite]
+OPERATORS = [raise_funds, raise_taxes, ads, donate, lunch, mitigate, grocery_tax, gmos, silos, ban_truck, mechanize, musk_sun, truck, wind_farm, stimulus, roads, resolve_drought, resolve_hornets, resolve_sinkhole, resolve_blowout, resolve_exodus, resolve_war_lite]
