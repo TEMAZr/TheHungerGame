@@ -281,7 +281,7 @@ def render_state(s):
             if os.name == "posix":
               the_color_array[i][j] = f"roads/roads{roadmatrix[i][j]}.jpg"
             else:
-              the_color_array[i][j] = f"roads\roads{roadmatrix[i][j]}.jpg"
+              the_color_array[i][j] = f"roads\\roads{roadmatrix[i][j]}.jpg"
 
     if State.last_news is not None and State.last_news.find("stimulus check") != -1:
       for i in range(8):
@@ -335,7 +335,7 @@ def render_state(s):
             if os.name == "posix":
               the_color_array[i][j] = f"billionaires/bill{billmatrix[i][j]}.jpg"
             else:
-              the_color_array[i][j] = f"billionaires\bill{billmatrix[i][j]}.jpg"
+              the_color_array[i][j] = f"billionaires\\bill{billmatrix[i][j]}.jpg"
     
     if State.last_news is not None and State.last_news.find("alien") != -1:
       for i in range(8):
