@@ -22,6 +22,128 @@ STATE_ARRAY = None
 ROOT = None
 THE_CANVAS = None
 
+blank = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+        ]
+
+truskmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,1,2,3,0,0,5,6,0],
+  [0,0,0,0,0,4,0,0,0,0,0],
+  [0,0,7,8,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,9,10,0,0,0],
+  [0,0,11,12,0,0,0,0,15,16,0],
+  [0,0,13,14,0,0,0,17,18,0,0]
+        ]
+
+windmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,1,2,3,0,0,0,0,8,9],
+  [0,0,4,5,6,0,0,0,0,0,10],
+  [0,0,7,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+        ]
+
+roadmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,1,2,0,0,0,0],
+  [0,0,0,0,3,4,5,0,7,8,0],
+  [0,0,0,0,6,0,0,0,9,10,0],
+  [0,0,0,0,11,12,0,0,0,0,0],
+  [0,0,0,0,13,14,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+        ]
+
+stimulusmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,1,2,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,3,4,0,0,0,0,5,6,0],
+  [0,0,0,0,0,0,0,0,7,8,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+]
+  
+factorymatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,1,0,0,0,0,0,0,0],
+  [0,0,0,2,3,4,0,0,0,0,0],
+  [0,0,0,5,6,7,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,8,0,0,0],
+  [0,0,0,0,9,10,11,12,0,0,0],
+  [0,0,0,0,13,14,15,16,0,0,0]
+        ]
+
+campaignmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,1,2,0,0,0],
+  [0,0,3,0,0,0,0,0,0,0,0],
+  [0,0,4,0,0,0,0,0,5,6,0],
+  [0,0,0,0,0,0,0,0,7,8,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+        ]
+
+beematrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,1,0,0,2,0,0,0,3,0,0],
+  [0,4,0,0,0,0,0,0,5,0,0],
+  [0,0,0,0,0,6,0,0,0,7,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,8,0,0,0,0,0,0,0],
+  [0,0,9,0,10,0,0,0,0,11,0]
+        ]
+
+holesmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,1,2,3,0,0,0,0,0],
+  [0,0,0,4,5,6,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+        ]
+
+billmatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,1,2,3,4,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0]
+        ]
+
+gmomatrix = [
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,1,2,0,0],
+  [0,5,6,7,0,0,0,3,4,0,0],
+  [0,8,9,10,11,0,0,12,13,0,0],
+  [0,0,0,0,0,0,0,14,15,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0],
+        ]
+
+
 def initialize_vis(st_win, state_arr, initial_state):
   global STATE_WINDOW, STATE_ARRAY, ROOT, THE_CANVAS, WIDTH, HEIGHT
   # State.holdwindow = ROOT
@@ -39,7 +161,7 @@ def render_state(s):
     # Note that font creation is only allowed after the Tk root has been
     # defined.  So we check here if the font creation is still needed,
     # and we do it (the first time this method is called).
-    global myFont
+    global myFont, truskmatrix
     if not myFont:
         myFont = font.Font(family="Helvetica", size=8)
     #print("In render_state, state is "+str(s))
@@ -141,6 +263,98 @@ def render_state(s):
     # the_color_array [2][5] = yellow
     # the_color_array [3][5] = "farm.jpg"
     # the_string_array[2][5] = "Rural"
+
+
+    if State.last_news is not None and State.last_news.find("wind farm") != -1:
+      for i in range(8):
+        for j in range(11):
+          if windmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"wind/wind{windmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"wind\wind{windmatrix[i][j]}.jpg"
+
+    if State.last_news is not None and State.last_news.find("roads") != -1:
+      for i in range(8):
+        for j in range(11):
+          if roadmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"roads/roads{roadmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"roads\roads{roadmatrix[i][j]}.jpg"
+
+    if State.last_news is not None and State.last_news.find("stimulus check") != -1:
+      for i in range(8):
+        for j in range(11):
+          if stimulusmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"stimulus/sc{stimulusmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"stimulus\sc{stimulusmatrix[i][j]}.jpg"
+
+    if State.last_news is not None and State.last_news.find("mechanize") != -1:
+      for i in range(8):
+        for j in range(11):
+          if factorymatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"factory/factory{factorymatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"factory\\factory{factorymatrix[i][j]}.jpg"
+
+    if State.last_news is not None and State.last_news.find("pestered") != -1:
+      for i in range(8):
+        for j in range(11):
+          if campaignmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"campaign/campaign{campaignmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"campaign\campaign{campaignmatrix[i][j]}.jpg"
+
+    if s.crisis is not None and s.crisis.name == "Homicidal Hornets":
+      for i in range(8):
+        for j in range(11):
+          if beematrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"hornets/hornet{beematrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"hornets\hornet{beematrix[i][j]}.jpg"
+
+    if s.crisis is not None and s.crisis.name == "Surprise Sinkhole":
+      for i in range(8):
+        for j in range(11):
+          if holesmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"sinkhole/hole{holesmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"sinkhole\hole{holesmatrix[i][j]}.jpg"
+
+    if s.crisis is not None and s.crisis.name == "Billionaire Blowout!":
+      for i in range(8):
+        for j in range(11):
+          if billmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"billionaires/bill{billmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"billionaires\bill{billmatrix[i][j]}.jpg"
+    
+    if State.last_news is not None and State.last_news.find("alien") != -1:
+      for i in range(8):
+        for j in range(11):
+          if gmomatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"gmos/gmos{gmomatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"gmos\gmos{gmomatrix[i][j]}.jpg"
+
+# stimulusmatrix, factorymatrix, campaignmatrix, beematrix, holesmatrix, billmatrix, gmomatrix
+    if s.rocket_truck:
+      for i in range(8):
+        for j in range(11):
+          if truskmatrix[i][j] != 0:
+            if os.name == "posix":
+              the_color_array[i][j] = f"elontrusk/elontrusk{truskmatrix[i][j]}.jpg"
+            else:
+              the_color_array[i][j] = f"elontrusk\elontrusk{truskmatrix[i][j]}.jpg"
 
     caption= str(s)
     print(caption)
