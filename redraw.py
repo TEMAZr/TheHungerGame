@@ -97,36 +97,37 @@ class Redraw:
 
     @staticmethod
     def newsreport(window, text, timeout=None):
+        scale = 0.6
         newwindow = tk.Toplevel(window)
-        newwindow.geometry("600x600+500+0")
+        newwindow.geometry(f"{int(600*scale)}x{int(600*scale)}+{int(newwindow.winfo_screenwidth()-600*scale)}+0")
         newwindow.title("Breaking News!")
 
         image = Image.open('newsbg.png')
-        image = image.resize((600,600), Image.Resampling.LANCZOS)
+        image = image.resize((int(600*scale),int(600*scale)), Image.Resampling.LANCZOS)
         testimg = ImageTk.PhotoImage(image)
         l.append(testimg)
 
         image2 = Image.open('money.jpg')
-        image2 = image2.resize((180,180), Image.Resampling.LANCZOS)
+        image2 = image2.resize((int(180*scale),int(180*scale)), Image.Resampling.LANCZOS)
         image2 = image2.convert("L")
         moneyimg = ImageTk.PhotoImage(image2)
         l.append(moneyimg)
 
         image3 = Image.open('holyburger.png')
-        image3 = image3.resize((135,180), Image.Resampling.LANCZOS)
+        image3 = image3.resize((int(135*scale),int(180*scale)), Image.Resampling.LANCZOS)
         image3 = image3.convert("L")
         burgerimg = ImageTk.PhotoImage(image3)
         l.append(burgerimg)
 
-        canvas = tk.Canvas(newwindow,width=600, height=600, bg="white")
+        canvas = tk.Canvas(newwindow,width=int(600*scale), height=int(600*scale), bg="white")
         canvas.pack()
-        canvas.create_image(300, 300, image=testimg)
-        canvas.create_image(100, 500, image=moneyimg)
-        canvas.create_image(525, 275, image=burgerimg)
+        canvas.create_image(int(300*scale), int(300*scale), image=testimg)
+        canvas.create_image(int(100*scale), int(500*scale), image=moneyimg)
+        canvas.create_image(int(525*scale), int(275*scale), image=burgerimg)
 
-        canvas.create_text(225, 275, text=text, font=("century schoolbook", 14), width=400)
+        canvas.create_text(int(225*scale), int(275*scale), text=text, font=("century schoolbook", int(13*scale)), width=int(400*scale))
 
-        canvas.create_text(330, 440, text="This information has been researched for the development of this game; data, statistics, and facts mentioned come from government reports or independent studies.", font=("century schoolbook", 10), width=230)
+        canvas.create_text(int(330*scale), int(450*scale), text="This information has been researched for the development of this game; data, statistics, and facts mentioned come from government reports or independent studies.", font=("century schoolbook", int(10*scale)), width=int(230*scale))
 
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
@@ -163,14 +164,34 @@ class Redraw:
     def quick_facts(window, timeout=None):
         newwindow = tk.Toplevel(window)
         newwindow.title("American Hunger Quick Facts")
-        newwindow.geometry("500x500")
+        newwindow.geometry("500x500+0+0")
 
         canvas = tk.Canvas(newwindow, width=500, height=500, bg="white")
         canvas.pack()
 
         quick_facts = "It is bad for people to starve. Source: Michael\n\nIn 2021, 10.2 percent of households were food-insecure, and 3.8 percent had very low food security. These values have not experienced a significant decrease in the last twenty years.\n\nAlso in 2021, children were food-insecure in 6.2 percent of households with children.\n\nThe median food-secure household spends 16 percent more on food than food-insecure households of the same composition, including purchases made with food stamps.\n\nAbout 56 percent of food-insecure households participated in major federal nutrition assistance programs.\n\nHouseholds in rural areas experience increased food insecurity as compared to their suburban and urban counterparts.\n\nThe food insecurity rate is highest in the South (11.4 percent), followed by the Midwest (9.9 percent), West (9.7 percent), and Northeast (8.8 percent)."
 
-        canvas.create_text(250, 250, text=quick_facts, fill="black",width=350, font=(24),justify='center')
+        canvas.create_text(250, 250, text=quick_facts, fill="black",width=350, font=(10),justify='center')
+
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
+
+    @staticmethod
+    def losswindow(window, timeout=None):
+        newwindow = tk.Toplevel(window)
+        newwindow.title("get rekt, get gud")
+        newwindow.geometry(f"1000x1000+{int(newwindow.winfo_screenwidth()/2-500)}+{0}")
+        newwindow.protocol('WM_DELETE_WINDOW', lambda: newwindow.master.destroy())
+
+        canvas = tk.Canvas(newwindow, width=1000, height=1000)
+        canvas.pack()
+
+        image = Image.open('failscreen.png')
+        image = image.resize((995,995), Image.Resampling.LANCZOS)
+        testimg = ImageTk.PhotoImage(image)
+        l.append(testimg)
+
+        canvas.create_image(500,500,image=testimg)
 
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
@@ -179,5 +200,9 @@ if __name__ == "__main__":
     #test stuff here
     window = tk.Tk()
     window.geometry("500x500")
-    Redraw.welcomewindow(window)
+
+    Redraw.losswindow(window)
+
+
+    # Redraw.newsreport(window, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque volutpat, eros vel hendrerit malesuada, urna ex condimentum tortor, in imperdiet purus mi at turpis. Cras nec augue dignissim, aliquet ligula quis, commodo ligula. Mauris elementum leo eu consequat posuere. Sed vel magna eget urna sodales porttitor in vel leo.")
     window.mainloop()

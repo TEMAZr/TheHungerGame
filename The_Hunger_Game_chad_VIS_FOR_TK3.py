@@ -163,7 +163,7 @@ def render_state(s):
     # and we do it (the first time this method is called).
     global myFont, truskmatrix
     if not myFont:
-        myFont = font.Font(family="Helvetica", size=8)
+        myFont = font.Font(family="Helvetica", size=12)
     #print("In render_state, state is "+str(s))
     # Create the default array of colors
 
