@@ -153,7 +153,7 @@ def render_state(s):
     if s.crisis is not None and s.crisis.turns_active == 1:
       print("\033[31;1;4mA crisis is happening\033[0m")
       # print(type(State.holdwindow))
-      redraw.Redraw.crisisalert(State.holdwindow, s.crisis)
+      redraw.Redraw.crisisalert(State.holdwindow, s.crisis, 10000)
     the_state_array.show()
     # redraw.Redraw.drawcanvas()
     # redraw.Redraw.alert("ope")

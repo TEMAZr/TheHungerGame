@@ -161,6 +161,7 @@ class State:
         new.ch *= 1/self.crisis.dch
         new.m -= self.crisis.fix_cost
         State.last_news = str(new.crisis.res_msg)
+        redraw.Redraw.newsreport(State.holdwindow, State.last_news, 15000)
         new.crisis.clear_turns_active()
         new.crisisMSG = "No crisis at the moment!\n"
         new.operMSG = new.crisis.res_msg
@@ -226,7 +227,7 @@ class State:
         # if new.crisis is not None:
         #     redraw.Redraw.crisisalert(State.holdwindow, new.crisis)
         State.last_news = str(t.msg)
-        redraw.Redraw.newsreport(State.holdwindow,State.last_news)
+        redraw.Redraw.newsreport(State.holdwindow,State.last_news,15000)
         return new
 
     def can_move(self, t):
