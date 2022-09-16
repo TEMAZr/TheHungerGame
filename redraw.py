@@ -159,6 +159,22 @@ class Redraw:
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
 
+    @staticmethod
+    def quick_facts(window, timeout=None):
+        newwindow = tk.Toplevel(window)
+        newwindow.title("American Hunger Quick Facts")
+        newwindow.geometry("500x500")
+
+        canvas = tk.Canvas(newwindow, width=500, height=500, bg="white")
+        canvas.pack()
+
+        quick_facts = "It is bad for people to starve. Source: Michael\n\nIn 2021, 10.2 percent of households were food-insecure, and 3.8 percent had very low food security. These values have not experienced a significant decrease in the last twenty years.\n\nAlso in 2021, children were food-insecure in 6.2 percent of households with children.\n\nThe median food-secure household spends 16 percent more on food than food-insecure households of the same composition, including purchases made with food stamps.\n\nAbout 56 percent of food-insecure households participated in major federal nutrition assistance programs.\n\nHouseholds in rural areas experience increased food insecurity as compared to their suburban and urban counterparts.\n\nThe food insecurity rate is highest in the South (11.4 percent), followed by the Midwest (9.9 percent), West (9.7 percent), and Northeast (8.8 percent)."
+
+        canvas.create_text(250, 250, text=quick_facts, fill="black",width=350, font=(24),justify='center')
+
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
+
 if __name__ == "__main__":
     #test stuff here
     window = tk.Tk()
