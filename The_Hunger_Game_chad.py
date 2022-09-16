@@ -197,7 +197,7 @@ class State:
                 new.crisis = war_lite
                 new.crisisMSG = new.crisis.msg
         if new.crisis is None:
-            if t.name == "+$100: Raise taxes on the top 1%" and t.times_used >= 2:
+            if t.name == "+$150: Raise taxes on the top 1%" and t.times_used >= 2:
                 if random.randint(0, 2) == 0:
                     new.crisis = blowout
                     new.crisisMSG = new.crisis.msg
