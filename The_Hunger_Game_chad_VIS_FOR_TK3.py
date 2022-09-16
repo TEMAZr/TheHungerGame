@@ -13,8 +13,8 @@ from The_Hunger_Game_chad import State
 
 myFont=None
 
-WIDTH = int(2732*0.3)-5
-HEIGHT = int(2048*0.3)-6
+WIDTH = int(2732*0.28)-5
+HEIGHT = int(2048*0.28)-5
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
