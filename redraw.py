@@ -72,7 +72,7 @@ class Redraw:
         print("Attempting crisis alert")
 
         newwindow = tk.Toplevel(window)
-        newwindow.geometry(f"500x500+{newwindow.winfo_screenwidth()-500}+{newwindow.winfo_screenheight()-500}")
+        newwindow.geometry(f"500x500+{newwindow.winfo_screenwidth()-500}+{newwindow.winfo_screenheight()-600}")
         newwindow.title("Crisis Alert!")
 
         image = Image.open('alert.png')
