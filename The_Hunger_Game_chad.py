@@ -223,7 +223,10 @@ class State:
             # newwindow.title("YEET")
             # redraw.Redraw.soloalert(State.holdwindow,"get rekt", 2000)
             redraw.Redraw.quick_facts(State.holdwindow)
-            State.holdwindow.after(1000, lambda:redraw.Redraw.terminatemessage(State.holdwindow,new.is_goal()[1]))
+            if new.is_goal()[1].find("broke") != -1 or new.is_goal()[1].find("kill") != -1:
+                State.holdwindow.after(1000, lambda:redraw.Redraw.losswindow(State.holdwindow,new.is_goal()[1],10000))
+            elif new.is_goal()[1].find("grateful") != -1:
+                State.holdwindow.after(1000, lambda:redraw.Redraw.winwindow(State.holdwindow,new.is_goal()[1],10000))
             State.holdwindow.after(10000, State.holdwindow.destroy)
         # if new.crisis is not None:
         #     redraw.Redraw.crisisalert(State.holdwindow, new.crisis)
@@ -276,8 +279,8 @@ class State:
 
     def goal_message(self):
         if self.m <= 50 and not task8.can_do_again() and not task10.can_do_again(): return "lol u broke, it's a skill issue."
-        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to \nkill god because they hate you so much \n(it's impressive how they did it while so hungry).'''
-        if self.h <= 30: return "Dennyville is ever grateful for your contributions! \nbye lul."
+        if self.h >= 90: return '''the people of the Dennyville Statistical Area found a way to kill god because they hate you so much (it's impressive how they did it while so hungry).\n\nget rekt.'''
+        if self.h <= 30: return "Dennyville is ever grateful for your contributions! \n\nbye lul."
         return "You haven't won yet!"
     
     @staticmethod

@@ -164,34 +164,58 @@ class Redraw:
     def quick_facts(window, timeout=None):
         newwindow = tk.Toplevel(window)
         newwindow.title("American Hunger Quick Facts")
-        newwindow.geometry("500x500+0+0")
+        newwindow.geometry(f"550x550+{int(newwindow.winfo_screenwidth()/2-275)}+0")
 
-        canvas = tk.Canvas(newwindow, width=500, height=500, bg="white")
+        canvas = tk.Canvas(newwindow, width=550, height=550, bg="white")
         canvas.pack()
 
         quick_facts = "It is bad for people to starve. Source: Michael\n\nIn 2021, 10.2 percent of households were food-insecure, and 3.8 percent had very low food security. These values have not experienced a significant decrease in the last twenty years.\n\nAlso in 2021, children were food-insecure in 6.2 percent of households with children.\n\nThe median food-secure household spends 16 percent more on food than food-insecure households of the same composition, including purchases made with food stamps.\n\nAbout 56 percent of food-insecure households participated in major federal nutrition assistance programs.\n\nHouseholds in rural areas experience increased food insecurity as compared to their suburban and urban counterparts.\n\nThe food insecurity rate is highest in the South (11.4 percent), followed by the Midwest (9.9 percent), West (9.7 percent), and Northeast (8.8 percent)."
 
-        canvas.create_text(250, 250, text=quick_facts, fill="black",width=350, font=(10),justify='center')
+        canvas.create_text(275, 275, text=quick_facts, fill="black",width=350, font=("helvetica",12),justify='center')
 
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
 
     @staticmethod
-    def losswindow(window, timeout=None):
+    def losswindow(window, text, timeout=None):
         newwindow = tk.Toplevel(window)
         newwindow.title("get rekt, get gud")
-        newwindow.geometry(f"1000x1000+{int(newwindow.winfo_screenwidth()/2-500)}+{0}")
+        newwindow.geometry(f"900x900+{int(newwindow.winfo_screenwidth()/2-450)}+{0}")
         newwindow.protocol('WM_DELETE_WINDOW', lambda: newwindow.master.destroy())
 
         canvas = tk.Canvas(newwindow, width=1000, height=1000)
         canvas.pack()
 
         image = Image.open('failscreen.png')
-        image = image.resize((995,995), Image.Resampling.LANCZOS)
+        image = image.resize((800,800), Image.Resampling.LANCZOS)
         testimg = ImageTk.PhotoImage(image)
         l.append(testimg)
 
-        canvas.create_image(500,500,image=testimg)
+        canvas.create_image(450,420,image=testimg)
+
+        canvas.create_text(450, 630, text=text, fill="white", font=("Helvetica",30,"bold"), justify='center', width=700)
+
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
+
+    @staticmethod
+    def winwindow(window, text, timeout=None):
+        newwindow = tk.Toplevel(window)
+        newwindow.title("get rekt, get gud")
+        newwindow.geometry(f"900x900+{int(newwindow.winfo_screenwidth()/2-450)}+{0}")
+        newwindow.protocol('WM_DELETE_WINDOW', lambda: newwindow.master.destroy())
+
+        canvas = tk.Canvas(newwindow, width=1000, height=1000)
+        canvas.pack()
+
+        image = Image.open('winscreen.png')
+        image = image.resize((800,800), Image.Resampling.LANCZOS)
+        testimg = ImageTk.PhotoImage(image)
+        l.append(testimg)
+
+        canvas.create_image(450,420,image=testimg)
+
+        canvas.create_text(450, 630, text=text, fill="white", font=("Helvetica",30,"bold"), justify='center', width=700)
 
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
@@ -201,7 +225,9 @@ if __name__ == "__main__":
     window = tk.Tk()
     window.geometry("500x500")
 
-    Redraw.losswindow(window)
+    Redraw.quick_facts(window)
+
+    # Redraw.winwindow(window,"Dennyville is ever grateful for your contributions! \n\nbye lul.")
 
 
     # Redraw.newsreport(window, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque volutpat, eros vel hendrerit malesuada, urna ex condimentum tortor, in imperdiet purus mi at turpis. Cras nec augue dignissim, aliquet ligula quis, commodo ligula. Mauris elementum leo eu consequat posuere. Sed vel magna eget urna sodales porttitor in vel leo.")
