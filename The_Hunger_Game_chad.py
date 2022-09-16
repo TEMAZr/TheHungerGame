@@ -234,6 +234,8 @@ class State:
         redraw.Redraw.newsreport(State.holdwindow,State.last_news,15000)
         if t.name.find("Ban the rocket truck") != -1:
             new.rocket_truck = False
+        # if new.rocket_truck == True:
+        #     new.rocket_truck = False
         return new
 
     def can_move(self, t):
