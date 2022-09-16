@@ -13,8 +13,8 @@ from The_Hunger_Game_chad import State
 
 myFont=None
 
-WIDTH = int(2732*0.3)-7
-HEIGHT = int(2048*0.3)-1
+WIDTH = int(2732*0.3)-5
+HEIGHT = int(2048*0.3)-6
 TITLE = 'The Hunger Game'
 
 STATE_WINDOW = None
@@ -30,6 +30,7 @@ def initialize_vis(st_win, state_arr, initial_state):
   STATE_WINDOW.winfo_toplevel().title(TITLE)
   # r = redraw.Redraw(STATE_WINDOW.master, WIDTH, HEIGHT)
   render_state(initial_state)
+  redraw.Redraw.welcomewindow(ROOT, 20000)
 
 def give_canvas(canvas, window):
   r = redraw.Redraw(canvas, WIDTH, HEIGHT, window)
@@ -141,7 +142,7 @@ def render_state(s):
     # the_color_array [3][5] = "farm.jpg"
     # the_string_array[2][5] = "Rural"
 
-    caption= str(s.operMSG) + str(s)
+    caption= str(s)
     print(caption)
     the_state_array = STATE_ARRAY(color_array=the_color_array,
                                   string_array=the_string_array,

@@ -131,6 +131,37 @@ class Redraw:
         if timeout is not None:
             newwindow.after(timeout, newwindow.destroy)
 
+    @staticmethod
+    def welcomewindow(window, timeout=None):
+        newwindow = tk.Toplevel(window)
+        newwindow.title("Welocome!")
+        newwindow.geometry("650x450")
+
+        canvas = tk.Canvas(newwindow, width=650, height=450, bg="white")
+        canvas.pack()
+
+        image = Image.open('weolcome.png')
+        image = image.resize((500,81), Image.Resampling.LANCZOS)
+        testimg = ImageTk.PhotoImage(image)
+        l.append(testimg)
+
+        canvas.create_image(325,80, image=testimg)
+
+        eek = "Welocome to the Hunger Game! You find yourself in the town of Dennyville.\n\nThis city is in a crisis: hunger rates have spiked to a new high. You, as the god controlling this city, must help the citizens get hunger rates under control. You have various operators at your disposal, all of which cost or give you money. Help Dennyville lower its hunger rate under 35% as fast as possible! \n\nAs an extra challenge, random crises will occur, especially if the hunger rate is high... Good Luck!"
+
+        canvas.create_text(325,250, text=eek,font=("helvetica",12),width=450,justify='center')
+
+        btn = tk.Button(canvas, text="Start your journey, trainee god!", command=newwindow.destroy)
+        btn.place(x=325-90, y=375)
+
+        newwindow.attributes('-topmost', 'true')
+
+        if timeout is not None:
+            newwindow.after(timeout, newwindow.destroy)
+
 if __name__ == "__main__":
     #test stuff here
-    pass
+    window = tk.Tk()
+    window.geometry("500x500")
+    Redraw.welcomewindow(window)
+    window.mainloop()
